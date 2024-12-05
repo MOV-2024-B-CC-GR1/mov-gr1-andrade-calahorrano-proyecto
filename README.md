@@ -11,6 +11,8 @@ Este proyecto corresponde a la aplicación móvil "Sabores del Ecuador". Incluye
 📂 Estructura del Proyecto
 📎 Anexos -->
 
+---
+
 ### 📖 Descripción del Proyecto
 Sabores del Ecuador busca preservar y difundir las tradiciones culinarias ecuatorianas mediante una plataforma digital amigable. Con esta aplicación, los usuarios podrán:
 - Texto
@@ -33,11 +35,17 @@ Sabores del Ecuador busca preservar y difundir las tradiciones culinarias ecuato
 
 <!-- #### 🚀 Segundo Bimestre -->
 
+---
+
 ### 👥 Autores
 - [Andrade Dilan](https://github.com/DilanAndrade007)
 - [Calahorrano David](https://github.com/DevTDavicho)
 
+---
+
 ### 📂 Estructura del Proyecto
+
+---
 
 ### 📎 Anexos
 #### 📌 Anexo 1: Mockup
