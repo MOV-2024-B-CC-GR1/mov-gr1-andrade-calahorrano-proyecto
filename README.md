@@ -29,9 +29,9 @@ Sabores del Ecuador busca preservar y difundir las tradiciones culinarias ecuato
 
 ### 📄 Documentación
 #### 📑 Primer Bimestre
-1. Mockups: Diseño de las pantallas principales de la aplicación.
-2. Diagrama Entidad-Relación: Estructura de la base de datos que soportará la app.
-3. Historias de Usuario: Requisitos funcionales descritos desde la perspectiva del usuario.
+1. [Mockups](documentacion/mockups): Diseño de las pantallas principales de la aplicación.
+2. [Diagrama Entidad-Relación](documentacion/diagramas): Estructura de la base de datos que soportará la app.
+3. [Historias de Usuario](documentacion/historias_usuarios/historias.md): Requisitos funcionales descritos desde la perspectiva del usuario.
 
 <!-- #### 🚀 Segundo Bimestre -->
 
