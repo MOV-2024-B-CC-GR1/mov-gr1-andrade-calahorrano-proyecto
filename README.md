@@ -30,7 +30,7 @@ Texto
 ### 📄 Documentación
 #### 📑 Primer Bimestre
 1. [Mockups](documentacion/mockups): Diseño de las pantallas principales de la aplicación.
-2. [Diagrama Entidad-Relación](documentacion/diagramas): Estructura de la base de datos que soportará la app.
+2. [Diagrama Entidad-Relación](documentacion/diagramas/Diagrama%20ER%20de%20base%20de%20datos.pdf): Estructura de la base de datos que soportará la app.
 3. [Historias de Usuario](documentacion/historias_usuarios/historias.md): Requisitos funcionales descritos desde la perspectiva del usuario.
 
 <!-- #### 🚀 Segundo Bimestre -->
@@ -49,4 +49,4 @@ Texto
 
 ### 📎 Anexos
 #### 📌 Anexo 1: [Mockups de la aplicación]() que muestran las pantallas principales de la app.
-#### 📌 Anexo 2: [Diagrama entidad-relación]() que detalla la estructura de la base de datos.
+#### 📌 Anexo 2: [Diagrama entidad-relación](https://lucid.app/lucidchart/fc3c0583-50c2-4a49-aeee-1467742b36a6/edit?viewport_loc=-501%2C-450%2C5120%2C2388%2C0_0&invitationId=inv_3b65949a-7f4e-4060-8cfb-0beafcd4c02d) que detalla la estructura de la base de datos.
