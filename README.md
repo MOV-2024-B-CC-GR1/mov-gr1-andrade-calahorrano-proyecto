@@ -4,12 +4,21 @@ Este proyecto corresponde a la aplicación móvil "Sabores del Ecuador". Incluye
 ---
 
 ## 📋 Índice
-<!-- 📖 Descripción del Proyecto
-🛠️ Tecnologías Utilizadas
-📄 Documentación
-👥 Autores
-📂 Estructura del Proyecto
-📎 Anexos -->
+- [Sabores del Ecuador](#sabores-del-ecuador)
+  - [📋 Índice](#-índice)
+    - [📖 Descripción del Proyecto](#-descripción-del-proyecto)
+    - [🛠️ Tecnologías Utilizadas](#️-tecnologías-utilizadas)
+    - [📄 Documentación](#-documentación)
+      - [📑 Primer Bimestre](#-primer-bimestre)
+    - [👥 Autores](#-autores)
+    - [📂 Estructura del Proyecto](#-estructura-del-proyecto)
+    - [📎 Anexos](#-anexos)
+      - [📌 Anexo 1: Mockups de la aplicación que muestran las pantallas principales de la app.](#-anexo-1-mockups-de-la-aplicación-que-muestran-las-pantallas-principales-de-la-app)
+      - [📌 Anexo 2: Diagrama entidad-relación que detalla la estructura de la base de datos.](#-anexo-2-diagrama-entidad-relación-que-detalla-la-estructura-de-la-base-de-datos)
+<!-- 
+
+
+ -->
 
 ---
 
@@ -44,6 +53,18 @@ Texto
 ---
 
 ### 📂 Estructura del Proyecto
+
+```plaintext
+mov-gr1-andrade-calahorrano-proyecto/
+├── README.md
+├── documentación/
+│   ├── diagramas/
+│   │   └── Diagrama ER de base de datos.pdf
+│   └── historias_usuario/
+│       └── Historia_Usuario.md
+│   ├── mockups/
+│   │   └── Mockups-Andrade_Calahorrano.pdf
+```
 
 ---
 
