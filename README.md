@@ -7,6 +7,7 @@ Este proyecto corresponde a la aplicación móvil "Sabores del Ecuador". Incluye
 - [Sabores del Ecuador](#sabores-del-ecuador)
   - [📋 Índice](#-índice)
     - [📖 Descripción del Proyecto](#-descripción-del-proyecto)
+      - [**Aplicación para Gestión de Recetas**](#aplicación-para-gestión-de-recetas)
     - [🛠️ Tecnologías Utilizadas](#️-tecnologías-utilizadas)
     - [📄 Documentación](#-documentación)
       - [📑 Primer Bimestre](#-primer-bimestre)
@@ -15,16 +16,11 @@ Este proyecto corresponde a la aplicación móvil "Sabores del Ecuador". Incluye
     - [📎 Anexos](#-anexos)
       - [📌 Anexo 1: Mockups de la aplicación que muestran las pantallas principales de la app.](#-anexo-1-mockups-de-la-aplicación-que-muestran-las-pantallas-principales-de-la-app)
       - [📌 Anexo 2: Diagrama entidad-relación que detalla la estructura de la base de datos.](#-anexo-2-diagrama-entidad-relación-que-detalla-la-estructura-de-la-base-de-datos)
-<!-- 
-
-
- -->
-
 ---
 
 ### 📖 Descripción del Proyecto
 
-### **Aplicación para Gestión de Recetas**
+#### **Aplicación para Gestión de Recetas**
 
 **Título del Proyecto:** **Sabores del Ecuador**
 
