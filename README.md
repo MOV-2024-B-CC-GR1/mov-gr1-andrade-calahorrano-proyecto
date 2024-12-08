@@ -31,7 +31,7 @@ Texto
 #### 📑 Primer Bimestre
 1. [Mockups](documentacion/mockups/Mockups-Andrade_Calahorrano.pdf): Diseño de las pantallas principales de la aplicación.
 2. [Diagrama Entidad-Relación](documentacion/diagramas/Diagrama%20ER%20de%20base%20de%20datos.pdf): Estructura de la base de datos que soportará la app.
-3. [Historias de Usuario](documentacion/historias_usuarios/historias.md): Requisitos funcionales descritos desde la perspectiva del usuario.
+3. [Historias de Usuario](documentacion/historias_usuarios/Historia_Usuario.md): Requisitos funcionales descritos desde la perspectiva del usuario.
 
 <!-- #### 🚀 Segundo Bimestre -->
 
