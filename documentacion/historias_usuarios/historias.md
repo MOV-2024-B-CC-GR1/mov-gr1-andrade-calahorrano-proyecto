@@ -329,3 +329,140 @@ Como usuario, quiero explorar las categorías de recetas y las recetas destacada
     <td style="padding: 8px;">8</td>
   </tr>
 </table>
+
+---
+
+### Historia Épica - N° 004
+**Nombre:** Navegar por categorías y buscar recetas en la App Sabores del Ecuador.
+
+**Descripción:**
+Como usuario, quiero explorar recetas de diferentes regiones de Ecuador (Costa, Sierra, Oriente) y buscar recetas específicas para facilitar mi experiencia en la aplicación.
+
+<table border="2" style="width:100%; border-collapse: collapse; text-align: left; font-family: Arial, sans-serif;">
+  <tr style="background-color: #2c3e50; color: #ecf0f1;">
+    <th style="padding: 8px;">Código</th>
+    <td style="padding: 8px;">US 004-1</td>
+  </tr>
+  <tr style="background-color: #34495e; color: #ecf0f1;">
+    <th style="padding: 8px;">Rol:</th>
+    <td style="padding: 8px;">Usuario</td>
+  </tr>
+  <tr style="background-color: #2c3e50; color: #ecf0f1;">
+    <th style="padding: 8px;">Historia de usuario:</th>
+    <td style="padding: 8px;">Filtrar recetas por categorías</td>
+  </tr>
+  <tr style="background-color: #34495e; color: #ecf0f1;">
+    <td colspan="2" style="padding: 8px;">
+      Como usuario, quiero seleccionar categorías específicas (Costa, Sierra, Oriente) para ver únicamente recetas relacionadas con esa región.
+    </td>
+  </tr>
+  <tr style="background-color: #2c3e50; color: #ecf0f1; font-weight: bold;">
+    <td colspan="2" style="padding: 8px;">Criterios de aceptación:</td>
+  </tr>
+  <tr style="background-color: #34495e; color: #ecf0f1;">
+    <td colspan="2" style="padding: 8px;">1. El sistema debe mostrar botones o íconos representativos de las categorías en la parte superior de la pantalla.</td>
+
+  </tr>
+  <tr style="background-color: #2c3e50; color: #ecf0f1;">
+    <td colspan="2" style="padding: 8px;">2. El sistema debe resaltar la categoría seleccionada y mostrar únicamente las recetas relacionadas.</td>
+  </tr>
+    <tr style="background-color: #34495e; color: #ecf0f1;">
+    <td colspan="2" style="padding: 8px;">3. El sistema debe incluir una opción "All" que muestre todas las recetas disponibles.</td>
+  </tr>
+  <tr style="background-color: #2c3e50; color: #ecf0f1;">
+    <td colspan="2" style="padding: 8px;">4. El sistema debe cambiar automáticamente el encabezado para reflejar la categoría seleccionada (ejemplo: "Costa").</td>
+  </tr>
+  <tr style="background-color: #34495e; color: #ecf0f1;">
+    <th style="padding: 8px;">Prioridad:</th>
+    <td style="padding: 8px;">M</td>
+  </tr>
+  <tr style="background-color: #2c3e50; color: #ecf0f1;">
+    <th style="padding: 8px;">Estimación:</th>
+    <td style="padding: 8px;">8</td>
+  </tr>
+</table>
+
+<table border="2" style="width:100%; border-collapse: collapse; text-align: left; font-family: Arial, sans-serif;">
+  <tr style="background-color: #2c3e50; color: #ecf0f1;">
+    <th style="padding: 8px;">Código</th>
+    <td style="padding: 8px;">US 004-2</td>
+  </tr>
+  <tr style="background-color: #34495e; color: #ecf0f1;">
+    <th style="padding: 8px;">Rol:</th>
+    <td style="padding: 8px;">Usuario</td>
+  </tr>
+  <tr style="background-color: #2c3e50; color: #ecf0f1;">
+    <th style="padding: 8px;">Historia de usuario:</th>
+    <td style="padding: 8px;">Buscar recetas por nombre o palabra clave</td>
+  </tr>
+  <tr style="background-color: #34495e; color: #ecf0f1;">
+    <td colspan="2" style="padding: 8px;">
+      Como usuario, quiero utilizar una barra de búsqueda para encontrar recetas rápidamente ingresando el nombre o palabras clave relacionadas.
+    </td>
+  </tr>
+  <tr style="background-color: #2c3e50; color: #ecf0f1; font-weight: bold;">
+    <td colspan="2" style="padding: 8px;">Criterios de aceptación:</td>
+  </tr>
+  <tr style="background-color: #34495e; color: #ecf0f1;">
+    <td colspan="2" style="padding: 8px;">1. El sistema debe mostrar una barra de búsqueda en la parte superior del menú principal.</td>
+
+  </tr>
+  <tr style="background-color: #2c3e50; color: #ecf0f1;">
+    <td colspan="2" style="padding: 8px;">2. El sistema debe filtrar las recetas en tiempo real mientras el usuario escribe en la barra de búsqueda.</td>
+  </tr>
+    <tr style="background-color: #34495e; color: #ecf0f1;">
+    <td colspan="2" style="padding: 8px;">3. El sistema debe mostrar un mensaje cuando no haya recetas que coincidan con la búsqueda (ejemplo: "No se encontraron recetas").</td>
+  </tr>
+  <tr style="background-color: #2c3e50; color: #ecf0f1;">
+    <td colspan="2" style="padding: 8px;">4. El sistema debe permitir borrar el texto de búsqueda y restaurar la lista completa de recetas.</td>
+  </tr>
+  <tr style="background-color: #34495e; color: #ecf0f1;">
+    <th style="padding: 8px;">Prioridad:</th>
+    <td style="padding: 8px;">M</td>
+  </tr>
+  <tr style="background-color: #2c3e50; color: #ecf0f1;">
+    <th style="padding: 8px;">Estimación:</th>
+    <td style="padding: 8px;">8</td>
+  </tr>
+</table>
+
+<table border="2" style="width:100%; border-collapse: collapse; text-align: left; font-family: Arial, sans-serif;">
+  <tr style="background-color: #2c3e50; color: #ecf0f1;">
+    <th style="padding: 8px;">Código</th>
+    <td style="padding: 8px;">US 004-3</td>
+  </tr>
+  <tr style="background-color: #34495e; color: #ecf0f1;">
+    <th style="padding: 8px;">Rol:</th>
+    <td style="padding: 8px;">Usuario</td>
+  </tr>
+  <tr style="background-color: #2c3e50; color: #ecf0f1;">
+    <th style="padding: 8px;">Historia de usuario:</th>
+    <td style="padding: 8px;">Ver detalles de una receta seleccionada</td>
+  </tr>
+  <tr style="background-color: #34495e; color: #ecf0f1;">
+    <td colspan="2" style="padding: 8px;">
+      Como usuario, quiero poder seleccionar una receta para ver sus detalles completos, incluidos los ingredientes y pasos de preparación.
+    </td>
+  </tr>
+  <tr style="background-color: #2c3e50; color: #ecf0f1; font-weight: bold;">
+    <td colspan="2" style="padding: 8px;">Criterios de aceptación:</td>
+  </tr>
+  <tr style="background-color: #34495e; color: #ecf0f1;">
+    <td colspan="2" style="padding: 8px;">1. El sistema debe mostrar un botón "Ver receta" para cada receta en el menú principal.</td>
+
+  </tr>
+  <tr style="background-color: #2c3e50; color: #ecf0f1;">
+    <td colspan="2" style="padding: 8px;">2. El sistema debe abrir una nueva pantalla o modal con los detalles completos de la receta al seleccionarla.</td>
+  </tr>
+    <tr style="background-color: #34495e; color: #ecf0f1;">
+    <td colspan="2" style="padding: 8px;">3. El sistema debe incluir opciones para volver al menú principal o explorar recetas relacionadas.</td>
+  </tr>
+  <tr style="background-color: #2c3e50; color: #ecf0f1;">
+    <th style="padding: 8px;">Prioridad:</th>
+    <td style="padding: 8px;">M</td>
+  </tr>
+  <tr style="background-color: #34495e; color: #ecf0f1;">
+    <th style="padding: 8px;">Estimación:</th>
+    <td style="padding: 8px;">5</td>
+  </tr>
+</table>
