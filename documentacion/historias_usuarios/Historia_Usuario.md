@@ -1,4 +1,7 @@
+# Historias de Usuario - App Sabores del Ecuador
+A continuación se detallan las épicas e historias usuario de la aplicación Android Sabores del Ecuador.
 
+---
 
 ### **Épica: Gestión de Usuario (GU001)**
 
