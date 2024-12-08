@@ -65,8 +65,8 @@ Al finalizar el proyecto, se espera que la aplicación **Recetas del Ecuador** s
 
 ### 🛠️ Tecnologías Utilizadas
 - Lenguaje: Kotlin
-- IDE: Android Studio
-- Base de Datos: Firebase / PostgreSQL (Pendiente)
+- IDE: Android Studio / IntelliJ IDEA
+- Base de Datos:(Pendiente)
 - Versionamiento: Git y GitHub
 
 ---
