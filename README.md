@@ -11,6 +11,7 @@ Este proyecto corresponde a la aplicación móvil "Sabores del Ecuador". Incluye
     - [🛠️ Tecnologías Utilizadas](#️-tecnologías-utilizadas)
     - [📄 Documentación](#-documentación)
       - [📑 Primer Bimestre](#-primer-bimestre)
+      - [🚀 Segundo Bimestre](#-segundo-bimestre)
     - [👥 Autores](#-autores)
     - [📂 Estructura del Proyecto](#-estructura-del-proyecto)
     - [📎 Anexos](#-anexos)
@@ -77,7 +78,8 @@ Al finalizar el proyecto, se espera que la aplicación **Recetas del Ecuador** s
 2. [Diagrama Entidad-Relación](documentacion/diagramas/Diagrama%20ER%20de%20base%20de%20datos.pdf): Estructura de la base de datos que soportará la app.
 3. [Historias de Usuario](documentacion/historias_usuarios/Historia_Usuario.md): Requisitos funcionales descritos desde la perspectiva del usuario.
 
-<!-- #### 🚀 Segundo Bimestre -->
+#### 🚀 Segundo Bimestre
+1. [Código Fuente]()
 
 ---
 
