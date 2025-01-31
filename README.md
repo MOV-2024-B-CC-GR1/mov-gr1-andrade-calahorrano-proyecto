@@ -101,6 +101,12 @@ mov-gr1-andrade-calahorrano-proyecto/
 │       └── Historia_Usuario.md
 │   ├── mockups/
 │   │   └── Mockups-Andrade_Calahorrano.pdf
+├── SaboresDelEcuador/
+│   ├── app/
+│   │   ├── src/
+│   │   │   ├── main
+│   │   │   │   ├── java/com/example/saboresdelecuador/
+│   │   │   │   ├── res/
 ```
 
 ---
