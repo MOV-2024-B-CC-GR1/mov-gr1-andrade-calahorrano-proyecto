@@ -79,7 +79,7 @@ Al finalizar el proyecto, se espera que la aplicación **Recetas del Ecuador** s
 3. [Historias de Usuario](documentacion/historias_usuarios/Historia_Usuario.md): Requisitos funcionales descritos desde la perspectiva del usuario.
 
 #### 🚀 Segundo Bimestre
-1. [Código Fuente]()
+1. [Repositorio del código Fuente](SaboresDelEcuador/app/)
 
 ---
 
