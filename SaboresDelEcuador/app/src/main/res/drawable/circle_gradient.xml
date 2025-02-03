@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="ring"
-    android:thickness="5dp"
-    android:innerRadiusRatio="2.1"
-    android:useLevel="false">
+    android:shape="oval">
 
-    <gradient></gradient>
+    <!-- Fondo transparente (o cámbialo a otro color si lo deseas) -->
+    <solid android:color="@android:color/transparent"/>
+
+    <!-- Borde blanco con grosor ajustable -->
+    <stroke
+        android:width="100dp"
+        android:color="#FFFFFF"/>
+
 </shape>
