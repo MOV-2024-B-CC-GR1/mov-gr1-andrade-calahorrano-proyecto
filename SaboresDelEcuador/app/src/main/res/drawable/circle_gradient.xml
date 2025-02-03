@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
+    android:shape="oval">
 
-    <!-- Degradado del fondo -->
+    <!-- Degradado de fondo -->
     <gradient
         android:startColor="#e45eb0"
         android:endColor="#f8c471"
         android:angle="45" />
 
-    <!-- Bordes redondeados (configurables) -->
-    <corners android:radius="250dp" />
-
     <!-- Borde blanco -->
     <stroke
         android:width="25dp"
         android:color="#FFFFFF" />
+
+    <!-- Hace que el centro del círculo sea transparente -->
+    <solid android:color="@android:color/transparent"/>
 </shape>
+
