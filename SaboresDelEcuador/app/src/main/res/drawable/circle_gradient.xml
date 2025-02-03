@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval">
+    android:shape="rectangle">
 
-    <!-- Fondo transparente (o cámbialo a otro color si lo deseas) -->
-    <solid android:color="@android:color/transparent"/>
+    <!-- Degradado del fondo -->
+    <gradient
+        android:startColor="#e45eb0"
+        android:endColor="#f8c471"
+        android:angle="45" />
 
-    <!-- Borde blanco con grosor ajustable -->
+    <!-- Bordes redondeados (configurables) -->
+    <corners android:radius="250dp" />
+
+    <!-- Borde blanco -->
     <stroke
-        android:width="100dp"
-        android:color="#FFFFFF"/>
-
+        android:width="25dp"
+        android:color="#FFFFFF" />
 </shape>
