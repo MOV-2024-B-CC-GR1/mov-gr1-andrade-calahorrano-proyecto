@@ -194,13 +194,14 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/loginEmail"
+                        android:id="@+id/loginUsername"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:backgroundTint="#E0E0E0"
-                        android:drawableStart="@drawable/ic_email"
+                        android:drawableStart="@drawable/ic_user"
                         android:fontFamily="sans-serif"
-                        android:hint="Correo electrónico"
+                        android:hint="Nombre de usuario"
+                        android:inputType="text"
                         android:padding="12dp"
                         android:textSize="18sp" />
 
@@ -226,6 +227,19 @@
                         android:text="Iniciar sesión"
                         android:textColor="@android:color/white"
                         android:textSize="20sp" />
+
+                    <!-- Botón para recuperar contraseña -->
+                    <TextView
+                        android:id="@+id/forgotPasswordButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="¿Olvidaste tu contraseña?"
+                        android:textColor="#FF5722"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </ViewSwitcher>
         </LinearLayout>
