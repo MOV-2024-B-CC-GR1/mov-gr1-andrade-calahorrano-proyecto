@@ -3,23 +3,20 @@ package com.example.saboresdelecuador.home
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
-import android.widget.ViewSwitcher
+import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.saboresdelecuador.R
+import com.example.saboresdelecuador.auth.AuthManager
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var viewSwitcher: ViewSwitcher
     private lateinit var registerTab: Button
     private lateinit var loginTab: Button
     private lateinit var actionButton: Button
-    private lateinit var forgotPassword: TextView // Nueva opción para recuperar contraseña
+    private lateinit var forgotPassword: TextView
 
     // Campos de Registro
     private lateinit var registerUsername: EditText
@@ -37,43 +34,30 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        // Inicializar componentes
         viewSwitcher = findViewById(R.id.viewSwitcher)
         registerTab = findViewById(R.id.registerTab)
         loginTab = findViewById(R.id.loginTab)
         actionButton = findViewById(R.id.createButton)
-        forgotPassword = findViewById(R.id.forgotPasswordButton) // Nueva opción para recuperar contraseña
+        forgotPassword = findViewById(R.id.forgotPasswordButton)
 
-        // Obtener referencias de los campos de Registro
         registerUsername = findViewById(R.id.nicknameInput)
         registerEmail = findViewById(R.id.emailInput)
         registerPassword = findViewById(R.id.passwordInput)
 
-        // Obtener referencias de los campos de Login
         loginUsername = findViewById(R.id.loginUsername)
         loginPassword = findViewById(R.id.loginPassword)
 
-        // Configurar botones con color correcto al inicio
         updateButtonStyles()
 
-//        // Configurar botones con color correcto al inicio
-//        registerTab.isEnabled = false
-//        registerTab.setBackgroundColor(resources.getColor(R.color.yellow)) // Amarillo activo
-//        loginTab.setBackgroundColor(resources.getColor(R.color.gray)) // Gris inactivo
-
         registerTab.setOnClickListener {
-//            if (viewSwitcher.currentView.id != R.id.registerLayout) {
-//                viewSwitcher.showNext()
-//                registerTab.isEnabled = false
-//                loginTab.isEnabled = true
-//                registerTab.setBackgroundColor(resources.getColor(R.color.yellow))
-//                loginTab.setBackgroundColor(resources.getColor(R.color.gray))
-//            }
             if (!isRegisterMode) {
                 viewSwitcher.showNext()
                 isRegisterMode = true
@@ -82,13 +66,6 @@ class HomeActivity : AppCompatActivity() {
         }
 
         loginTab.setOnClickListener {
-//            if (viewSwitcher.currentView.id != R.id.loginLayout) {
-//                viewSwitcher.showPrevious()
-//                loginTab.isEnabled = false
-//                registerTab.isEnabled = true
-//                loginTab.setBackgroundColor(resources.getColor(R.color.yellow))
-//                registerTab.setBackgroundColor(resources.getColor(R.color.gray))
-//            }
             if (isRegisterMode) {
                 viewSwitcher.showPrevious()
                 isRegisterMode = false
@@ -96,7 +73,6 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        // Acción del botón para iniciar sesión
         actionButton.setOnClickListener {
             if (isRegisterMode) {
                 registerUser()
@@ -105,7 +81,6 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        // Acción para recuperar contraseña
         forgotPassword.setOnClickListener {
             recoverPassword()
         }
@@ -139,33 +114,54 @@ class HomeActivity : AppCompatActivity() {
             return
         }
 
-        showToast("Registro exitoso para $username")
-        // Aquí puedes agregar Firebase u otro sistema de autenticación.
+        AuthManager.registerUser(
+            this, username, email, password,
+            onSuccess = {
+                showToast("Registro exitoso")
+                val intent = Intent(this, DashboardActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish() // Cierra HomeActivity para evitar volver atrás
+            },
+            onFailure = { message -> showToast(message) }
+        )
     }
 
     private fun loginUser() {
-        val username = loginUsername.text.toString().trim()
+        val email = loginUsername.text.toString().trim()
         val password = loginPassword.text.toString().trim()
 
-        if (username.isEmpty() || password.isEmpty()) {
+        if (email.isEmpty() || password.isEmpty()) {
             showToast("Por favor, ingresa tu usuario y contraseña")
             return
         }
 
-        if (username == "admin" && password == "1234") {
-            showToast("Inicio de sesión exitoso")
-        } else {
-            showToast("Usuario o contraseña incorrectos")
-        }
+        AuthManager.loginUser(
+            this, email, password,
+            onSuccess = {
+                showToast("Inicio de sesión exitoso")
+                val intent = Intent(this, DashboardActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+            },
+            onFailure = { message ->
+                showToast(message)
+            }
+        )
     }
 
     private fun recoverPassword() {
-        val username = loginUsername.text.toString().trim()
+        val email = loginUsername.text.toString().trim()
 
-        if (username.isEmpty()) {
-            showToast("Ingresa tu nombre de usuario para recuperar la contraseña")
+        if (email.isEmpty()) {
+            showToast("Ingresa tu correo para recuperar la contraseña")
         } else {
-            showToast("Se ha enviado un enlace de recuperación a tu correo")
+            AuthManager.recoverPassword(
+                this, email,
+                onSuccess = { showToast("Correo de recuperación enviado") },
+                onFailure = { message -> showToast(message) }
+            )
         }
     }
 
