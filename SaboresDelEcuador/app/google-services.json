@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "349132565672",
+    "project_id": "proyectoam-03",
+    "storage_bucket": "proyectoam-03.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349132565672:android:55d3b1b37aef1b5c8da69d",
+        "android_client_info": {
+          "package_name": "com.example.saboresdelecuador"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAx16GhHPcEXDO6a96Fm9M8la7hYHISISU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

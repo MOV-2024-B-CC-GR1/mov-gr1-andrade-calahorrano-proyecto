@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.firebase.appdistribution)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -42,6 +44,12 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    // Firebase BoM (Administra versiones automáticamente)
+    implementation(platform("com.google.firebase:firebase-bom:33.8.0"))
+    // Firestore
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    // Opcional: Autenticación (si vas a usar Firebase Auth en el futuro)
+    implementation("com.google.firebase:firebase-auth-ktx")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
