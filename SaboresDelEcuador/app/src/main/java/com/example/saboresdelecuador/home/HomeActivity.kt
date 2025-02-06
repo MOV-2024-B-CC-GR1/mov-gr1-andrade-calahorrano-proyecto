@@ -3,6 +3,7 @@ package com.example.saboresdelecuador.home
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -20,12 +21,12 @@ class HomeActivity : AppCompatActivity() {
 
     // Campos de Registro
     private lateinit var registerUsername: EditText
-    private lateinit var registerEmail: EditText
     private lateinit var registerPassword: EditText
 
     // Campos de Login
     private lateinit var loginUsername: EditText
     private lateinit var loginPassword: EditText
+    private lateinit var loginButton: Button
 
     private var isRegisterMode = true
 
@@ -49,11 +50,11 @@ class HomeActivity : AppCompatActivity() {
         forgotPassword = findViewById(R.id.forgotPasswordButton)
 
         registerUsername = findViewById(R.id.nicknameInput)
-        registerEmail = findViewById(R.id.emailInput)
         registerPassword = findViewById(R.id.passwordInput)
 
         loginUsername = findViewById(R.id.loginUsername)
         loginPassword = findViewById(R.id.loginPassword)
+        loginButton = findViewById(R.id.loginButton)
 
         updateButtonStyles()
 
@@ -77,12 +78,29 @@ class HomeActivity : AppCompatActivity() {
             if (isRegisterMode) {
                 registerUser()
             } else {
-                loginUser()
+                val nickname = loginUsername.text.toString().trim()
+                val password = loginPassword.text.toString().trim()
+
+                Log.d("LOGIN_FIRESTORE", "Botón presionado. Usuario: $nickname, Contraseña: $password")
+                loginUser(nickname, password)
             }
         }
 
-        forgotPassword.setOnClickListener {
-            recoverPassword()
+        loginButton.setOnClickListener {
+            Log.d("LOGIN_BUTTON", "Botón de inicio de sesión presionado")
+
+            val username = loginUsername.text.toString().trim()
+            val password = loginPassword.text.toString().trim()
+
+            Log.d("LOGIN_BUTTON", "Usuario ingresado: $username")
+            Log.d("LOGIN_BUTTON", "Contraseña ingresada: $password")
+
+            if (username.isEmpty() || password.isEmpty()) {
+                showToast("Por favor, ingresa tu usuario y contraseña")
+                return@setOnClickListener
+            }
+
+            loginUser(username, password)
         }
     }
 
@@ -106,39 +124,33 @@ class HomeActivity : AppCompatActivity() {
 
     private fun registerUser() {
         val username = registerUsername.text.toString().trim()
-        val email = registerEmail.text.toString().trim()
         val password = registerPassword.text.toString().trim()
 
-        if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty()) {
             showToast("Por favor, completa todos los campos.")
             return
         }
 
         AuthManager.registerUser(
-            this, username, email, password,
+            this, username, password,
             onSuccess = {
                 showToast("Registro exitoso")
                 val intent = Intent(this, DashboardActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
-                finish() // Cierra HomeActivity para evitar volver atrás
+                finish()
             },
             onFailure = { message -> showToast(message) }
         )
     }
 
-    private fun loginUser() {
-        val email = loginUsername.text.toString().trim()
-        val password = loginPassword.text.toString().trim()
-
-        if (email.isEmpty() || password.isEmpty()) {
-            showToast("Por favor, ingresa tu usuario y contraseña")
-            return
-        }
+    private fun loginUser(username: String, password: String) {
+        Log.d("LOGIN_FIRESTORE", "Intentando iniciar sesión con usuario: $username")
 
         AuthManager.loginUser(
-            this, email, password,
+            this, username, password,
             onSuccess = {
+                Log.d("LOGIN_FIRESTORE", "Inicio de sesión exitoso")
                 showToast("Inicio de sesión exitoso")
                 val intent = Intent(this, DashboardActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -146,23 +158,10 @@ class HomeActivity : AppCompatActivity() {
                 finish()
             },
             onFailure = { message ->
+                Log.d("LOGIN_FIRESTORE", "Error en login: $message")
                 showToast(message)
             }
         )
-    }
-
-    private fun recoverPassword() {
-        val email = loginUsername.text.toString().trim()
-
-        if (email.isEmpty()) {
-            showToast("Ingresa tu correo para recuperar la contraseña")
-        } else {
-            AuthManager.recoverPassword(
-                this, email,
-                onSuccess = { showToast("Correo de recuperación enviado") },
-                onFailure = { message -> showToast(message) }
-            )
-        }
     }
 
     private fun showToast(message: String) {

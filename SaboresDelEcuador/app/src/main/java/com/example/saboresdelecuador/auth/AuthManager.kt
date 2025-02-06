@@ -1,89 +1,93 @@
 package com.example.saboresdelecuador.auth
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 
 object AuthManager {
-    private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
 
     /**
-     * Registra un nuevo usuario en Firebase Authentication y almacena datos en Firestore.
+     * Registra un nuevo usuario en Firestore con usuario y contraseña.
      */
-    fun registerUser(context: Context, nickname: String, email: String, password: String, onSuccess: () -> Unit, onFailure: (String) -> Unit) {
-        if (nickname.isEmpty() || email.isEmpty() || password.isEmpty()) {
+    fun registerUser(
+        context: Context,
+        nickname: String,
+        password: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        if (nickname.isEmpty() || password.isEmpty()) {
             onFailure("Todos los campos son obligatorios.")
             return
         }
 
-        // Registrar en Firebase Authentication
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val userId = auth.currentUser?.uid ?: return@addOnCompleteListener
+        val user = hashMapOf(
+            "nickname" to nickname,
+            "password" to password,  // ⚠️ No se recomienda almacenar contraseñas sin encriptar
+            "fecha_registro" to Timestamp.now()
+        )
 
-                    // Guardar información adicional en Firestore
-                    val user = hashMapOf(
-                        "nickname" to nickname,
-                        "email" to email,
-                        "fecha_registro" to com.google.firebase.Timestamp.now()
-                    )
-
-                    db.collection("Usuarios").document(userId)
-                        .set(user)
-                        .addOnSuccessListener {
-                            Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show()
-                            onSuccess()
-                        }
-                        .addOnFailureListener { e ->
-                            onFailure("Error al guardar datos: ${e.message}")
-                        }
-                } else {
-                    onFailure(task.exception?.message ?: "Error en el registro")
-                }
+        db.collection("Usuarios")
+            .document(nickname)  // 🔹 Guardar usuario con el nickname como ID único
+            .set(user)
+            .addOnSuccessListener {
+                Log.d("REGISTER_FIRESTORE", "✅ Usuario registrado correctamente")
+                Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                onSuccess()
+            }
+            .addOnFailureListener { e ->
+                Log.e("REGISTER_FIRESTORE", "⚠️ Error al registrar: ${e.message}")
+                onFailure("Error al registrar: ${e.message}")
             }
     }
 
     /**
-     * Inicia sesión con Firebase Authentication.
+     * Inicia sesión verificando en Firestore con nickname y contraseña.
      */
     fun loginUser(
-        context: Context, email: String, password: String,
-        onSuccess: () -> Unit, onFailure: (String) -> Unit
+        context: Context,
+        nickname: String,
+        password: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
     ) {
-        if (email.isEmpty() || password.isEmpty()) {
+        if (nickname.isEmpty() || password.isEmpty()) {
             onFailure("Ingrese usuario y contraseña.")
             return
         }
 
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                Toast.makeText(context, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-                onSuccess()
+        Log.d("LOGIN_FIRESTORE", "Buscando usuario: $nickname en Firestore")
+
+        db.collection("Usuarios")
+            .whereEqualTo("nickname", nickname) // 🔹 Busca por nickname
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val userDoc = documents.documents[0]
+                    val storedPassword = userDoc.getString("password") ?: ""
+
+                    Log.d("LOGIN_FIRESTORE", "Usuario encontrado: ${userDoc.getString("nickname")}")
+                    Log.d("LOGIN_FIRESTORE", "Contraseña en Firestore: $storedPassword")
+                    Log.d("LOGIN_FIRESTORE", "Contraseña ingresada: $password")
+
+                    if (storedPassword == password) {
+                        Log.d("LOGIN_FIRESTORE", "✅ Inicio de sesión exitoso")
+                        onSuccess()
+                    } else {
+                        Log.d("LOGIN_FIRESTORE", "❌ Contraseña incorrecta")
+                        onFailure("Usuario o contraseña incorrectos.")
+                    }
+                } else {
+                    Log.d("LOGIN_FIRESTORE", "❌ Usuario no encontrado en Firestore")
+                    onFailure("Usuario o contraseña incorrectos.")
+                }
             }
             .addOnFailureListener { e ->
-                onFailure("Error al iniciar sesión: ${e.message}")
-            }
-    }
-
-    /**
-     * Envía un correo para recuperar la contraseña.
-     */
-    fun recoverPassword(context: Context, email: String, onSuccess: () -> Unit, onFailure: (String) -> Unit) {
-        if (email.isEmpty()) {
-            onFailure("Ingrese su correo electrónico.")
-            return
-        }
-
-        auth.sendPasswordResetEmail(email)
-            .addOnSuccessListener {
-                Toast.makeText(context, "Correo de recuperación enviado", Toast.LENGTH_SHORT).show()
-                onSuccess()
-            }
-            .addOnFailureListener { e ->
-                onFailure("Error: ${e.message}")
+                Log.e("LOGIN_FIRESTORE", "⚠️ Error al acceder a Firestore: ${e.message}")
+                onFailure("Error al acceder a Firestore.")
             }
     }
 }
