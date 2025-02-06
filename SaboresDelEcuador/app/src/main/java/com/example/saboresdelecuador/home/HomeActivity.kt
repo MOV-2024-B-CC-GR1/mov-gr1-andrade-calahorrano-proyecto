@@ -102,6 +102,10 @@ class HomeActivity : AppCompatActivity() {
 
             loginUser(username, password)
         }
+
+        forgotPassword.setOnClickListener {
+            recoverPassword()
+        }
     }
 
     private fun updateButtonStyles() {
@@ -160,6 +164,29 @@ class HomeActivity : AppCompatActivity() {
             onFailure = { message ->
                 Log.d("LOGIN_FIRESTORE", "Error en login: $message")
                 showToast(message)
+            }
+        )
+    }
+
+    private fun recoverPassword() {
+        val username = loginUsername.text.toString().trim()
+
+        if (username.isEmpty()) {
+            showToast("Por favor, ingresa tu nombre de usuario")
+            return
+        }
+
+        Log.d("RECOVER_PASSWORD", "Buscando usuario: $username")
+
+        AuthManager.recoverPassword(
+            this, username,
+            onSuccess = { mensaje ->
+                Log.d("RECOVER_PASSWORD", "Usuario encontrado: $username")
+                showToast(mensaje) // ✅ Muestra la contraseña recuperada
+            },
+            onFailure = { message ->
+                Log.d("RECOVER_PASSWORD", "Error: $message")
+                showToast(message) // ❌ Usuario no encontrado
             }
         )
     }

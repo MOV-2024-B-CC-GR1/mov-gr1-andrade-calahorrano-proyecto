@@ -90,4 +90,41 @@ object AuthManager {
                 onFailure("Error al acceder a Firestore.")
             }
     }
+
+    fun recoverPassword(
+        context: Context,
+        username: String,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        if (username.isEmpty()) {
+            onFailure("Ingrese su nombre de usuario.")
+            return
+        }
+
+        Log.d("RECOVER_PASSWORD", "Buscando en Firestore el usuario: $username")
+
+        db.collection("Usuarios")
+            .whereEqualTo("nickname", username) // 🔍 Busca por el nombre de usuario
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val userDoc = documents.documents[0]
+                    val storedPassword = userDoc.getString("password") ?: "No disponible"
+
+                    Log.d("RECOVER_PASSWORD", "Contraseña recuperada: $storedPassword")
+
+                    // Simulamos un mensaje de recuperación de contraseña
+                    val mensaje = "Tu contraseña es: $storedPassword"
+                    onSuccess(mensaje)
+                } else {
+                    Log.d("RECOVER_PASSWORD", "Usuario no encontrado")
+                    onFailure("No se encontró el usuario.")
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("RECOVER_PASSWORD", "Error al buscar usuario: ${e.message}")
+                onFailure("Error al recuperar la contraseña.")
+            }
+    }
 }
