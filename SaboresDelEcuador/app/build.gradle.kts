@@ -50,6 +50,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     // Opcional: Autenticación (si vas a usar Firebase Auth en el futuro)
     implementation("com.google.firebase:firebase-auth-ktx")
+    implementation(libs.androidx.gridlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

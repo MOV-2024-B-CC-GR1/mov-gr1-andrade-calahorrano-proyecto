@@ -8,10 +8,10 @@
 
     <color name="backgroundColor">#FFF3DF</color>
     <color name="primaryColor">#D35400</color>
-    <color name="textColor">#2C3E50</color>
+    <color name="textColor">#4E4E4E</color>
     <color name="cardBackground">#FFFFFF</color>
     <color name="cardGradientStart">#FFDD99</color>
-    <color name="titleColor">#D35400</color>
+    <color name="titleColor">#000000</color>
     <color name="imageBorder">#D1D1D1</color>
     <color name="buttonColor">#007BFF</color>
 </resources>
