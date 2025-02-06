@@ -11,5 +11,7 @@
     <color name="textColor">#2C3E50</color>
     <color name="cardBackground">#FFFFFF</color>
     <color name="cardGradientStart">#FFDD99</color>
+    <color name="titleColor">#D35400</color>
+    <color name="imageBorder">#D1D1D1</color>
     <color name="buttonColor">#007BFF</color>
 </resources>

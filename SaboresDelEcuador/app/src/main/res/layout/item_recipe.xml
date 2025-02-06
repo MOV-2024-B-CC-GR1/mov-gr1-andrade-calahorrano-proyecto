@@ -13,22 +13,30 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="12dp"
         android:background="@drawable/gradient_background">
 
-        <!-- Imagen de la receta -->
-        <ImageView
-            android:id="@+id/recipeImage"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/sample_recipe"
-            android:background="@android:color/transparent"
-            android:clipToOutline="true"
+        <!-- Contenedor de la Imagen con Bordes Suaves -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/imageContainer"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp">
+
+            <ImageView
+                android:id="@+id/recipeImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sample_recipe"/>
+        </androidx.cardview.widget.CardView>
 
         <!-- Título de la receta -->
         <TextView
@@ -38,11 +46,11 @@
             android:text="Encebollado"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="@color/primaryColor"
+            android:textColor="@color/titleColor"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/recipeImage"
-            android:layout_marginEnd="8dp"/>
+            app:layout_constraintEnd_toStartOf="@id/imageContainer"
+            android:layout_marginEnd="12dp"/>
 
         <!-- Descripción de la receta -->
         <TextView
@@ -54,25 +62,26 @@
             android:textColor="@color/textColor"
             app:layout_constraintTop_toBottomOf="@id/recipeTitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/recipeImage"
-            android:layout_marginTop="4dp"/>
+            app:layout_constraintEnd_toStartOf="@id/imageContainer"
+            android:layout_marginTop="6dp"/>
 
         <!-- Botón "Ver receta" -->
-        <TextView
+        <Button
             android:id="@+id/btnViewRecipe"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:text="Ver receta"
-            android:textSize="13sp"
+            android:textSize="14sp"
             android:textColor="@android:color/white"
             android:gravity="center"
-            android:paddingHorizontal="14dp"
-            android:paddingVertical="6dp"
-            android:background="@color/buttonColor"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="8dp"
+            android:backgroundTint="@color/buttonColor"
+            android:elevation="4dp"
             app:layout_constraintTop_toBottomOf="@id/recipeDescription"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
