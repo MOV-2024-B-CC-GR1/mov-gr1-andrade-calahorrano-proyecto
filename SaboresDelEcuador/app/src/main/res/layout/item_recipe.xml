@@ -6,7 +6,9 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="20dp"
     app:cardElevation="8dp"
-    android:layout_margin="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="0dp"
+
     android:backgroundTint="@android:color/transparent"
     app:cardUseCompatPadding="true">
 

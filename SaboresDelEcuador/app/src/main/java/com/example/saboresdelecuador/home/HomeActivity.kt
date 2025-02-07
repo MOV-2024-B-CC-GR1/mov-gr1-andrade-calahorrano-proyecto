@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.saboresdelecuador.R
 import com.example.saboresdelecuador.auth.AuthManager
+import com.example.saboresdelecuador.recipes.RecipesActivity
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var viewSwitcher: ViewSwitcher
@@ -156,7 +157,7 @@ class HomeActivity : AppCompatActivity() {
             onSuccess = {
                 Log.d("LOGIN_FIRESTORE", "Inicio de sesión exitoso")
                 showToast("Inicio de sesión exitoso")
-                val intent = Intent(this, DashboardActivity::class.java)
+                val intent = Intent(this, RecipesActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 finish()

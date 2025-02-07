@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/backgroundColor"
     android:padding="16dp"
     tools:context=".recipes.RecipesActivity">
@@ -21,147 +23,189 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"/>
 
-    <!-- Título "Menu" -->
-    <TextView
-        android:id="@+id/titleMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Menu"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="@color/titleColor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"/>
-
-    <!-- Barra de búsqueda -->
-    <EditText
-        android:id="@+id/searchBar"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:hint="Buscar recetas..."
-        android:background="@drawable/search_background"
-        android:drawableStart="@drawable/ic_search"
-        android:drawablePadding="10dp"
-        android:textColor="@color/textColor"
-        android:textSize="14sp"
-        android:paddingHorizontal="16dp"
-        app:layout_constraintTop_toBottomOf="@id/titleMenu"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
-
-    <!-- Grid de Categorías -->
-    <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/categoryGrid"
+    <!-- Contenedor ScrollView SOLO para la parte superior -->
+    <ScrollView
+        android:id="@+id/scrollViewContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="4"
-        android:rowCount="2"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/searchBar"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/recyclerViewRecipes"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/profileButton">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center"
-            android:layout_margin="8dp">
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_all"
-                android:background="@drawable/category_background"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="All"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:textColor="@color/textColor"/>
-        </LinearLayout>
+            android:paddingBottom="8dp">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_margin="8dp">
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_costa"
-                android:background="@drawable/category_background"/>
+            <!-- Título "Menu" -->
             <TextView
+                android:id="@+id/titleMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Costa"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:textColor="@color/textColor"/>
-        </LinearLayout>
+                android:layout_gravity="start"
+                android:layout_marginTop="15dp"
+                android:text="Menu"
+                android:textColor="@color/titleColor"
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_margin="8dp">
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_sierra"
-                android:background="@drawable/category_background"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sierra"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:textColor="@color/textColor"/>
-        </LinearLayout>
+            <!-- Barra de búsqueda -->
+            <EditText
+                android:id="@+id/searchBar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/search_background"
+                android:drawableStart="@drawable/ic_search"
+                android:drawablePadding="10dp"
+                android:hint="Buscar recetas..."
+                android:paddingHorizontal="16dp"
+                android:textColor="@color/textColor"
+                android:textSize="14sp" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_margin="8dp">
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_amazonia"
-                android:background="@drawable/category_background"/>
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Grid de Categorías -->
+            <androidx.gridlayout.widget.GridLayout
+                android:id="@+id/categoryGrid"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Oriente"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:textColor="@color/textColor"/>
-        </LinearLayout>
+                android:layout_marginTop="16dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:padding="8dp"
+                app:columnCount="5"
+                app:rowCount="2">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_margin="8dp">
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_insular"
-                android:background="@drawable/category_background"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Galapagos"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:textColor="@color/textColor"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/category_background"
+                        android:src="@drawable/ic_all" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="All"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/category_background"
+                        android:src="@drawable/ic_costa" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Costa"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/category_background"
+                        android:src="@drawable/ic_sierra" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Sierra"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/category_background"
+                        android:src="@drawable/ic_amazonia" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Oriente"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/category_background"
+                        android:src="@drawable/ic_insular" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Galápagos"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </androidx.gridlayout.widget.GridLayout>
         </LinearLayout>
-    </androidx.gridlayout.widget.GridLayout>
-    
+    </ScrollView>
+
+    <!-- RecyclerView para listar recetas (Usando item_recipes.xml) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRecipes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scrollViewContent"
+        tools:listitem="@layout/item_recipe" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
