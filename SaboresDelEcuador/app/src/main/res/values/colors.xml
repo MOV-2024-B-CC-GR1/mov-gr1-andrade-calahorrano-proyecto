@@ -14,4 +14,12 @@
     <color name="titleColor">#000000</color>
     <color name="imageBorder">#D1D1D1</color>
     <color name="buttonColor">#007BFF</color>
+
+    <!-- Color de fondo cuando el botón está presionado -->
+    <color name="colorPrimaryDark">#AFEEEE</color>
+
+    <!-- Color de fondo normal del botón -->
+    <color name="categoryBackground">#E0E0E0</color>
+
+    <color name="backgroundCategory">#F5F5F5</color> <!-- Un gris claro, puedes cambiarlo -->
 </resources>

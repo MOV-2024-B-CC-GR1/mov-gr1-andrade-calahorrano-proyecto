@@ -64,6 +64,7 @@ class RecipesActivity : AppCompatActivity() {
 
     // ✅ Asegúrate de poner este método dentro de la clase `RecipesActivity`
     private fun setupCategoryFilters() {
+        val selectedCategoryText = findViewById<TextView>(R.id.selectedCategoryText)
         val categories = mapOf(
             "All" to findViewById<LinearLayout>(R.id.categoryAll),
             "Costa" to findViewById<LinearLayout>(R.id.categoryCosta),
@@ -72,9 +73,10 @@ class RecipesActivity : AppCompatActivity() {
             "Galápagos" to findViewById<LinearLayout>(R.id.categoryGalapagos)
         )
 
-        for ((category, layout) in categories) {
-            layout.setOnClickListener {
+        for ((category, button) in categories) {
+            button.setOnClickListener {
                 filterRecipes(category)
+                selectedCategoryText.text = "Categoría: $category"
             }
         }
     }

@@ -11,6 +11,7 @@
     tools:context=".recipes.RecipesActivity">
 
     <!-- Botón de perfil en la esquina superior derecha -->
+
     <ImageView
         android:id="@+id/profileButton"
         android:layout_width="45dp"
@@ -78,21 +79,30 @@
                 android:clipToPadding="false"
                 android:padding="8dp"
                 app:columnCount="5"
-                app:rowCount="2">
+                app:rowCount="1">
 
+                <!-- Repetir para cada categoría -->
                 <LinearLayout
                     android:id="@+id/categoryAll"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_margin="4dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:background="@drawable/category_selector"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="6dp"
+                    app:layout_columnWeight="1"
+                    app:layout_columnSpan="1"
+                    app:layout_rowSpan="1">
 
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:background="@drawable/category_background"
-                        android:src="@drawable/ic_all" />
+                        android:src="@drawable/ic_all"
+                        android:scaleType="centerCrop" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -104,12 +114,19 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
                     android:id="@+id/categoryCosta"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_margin="4dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:background="@drawable/category_selector"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="6dp"
+                    app:layout_columnWeight="1"
+                    app:layout_columnSpan="1"
+                    app:layout_rowSpan="1">
 
                     <ImageView
                         android:layout_width="60dp"
@@ -128,11 +145,18 @@
 
                 <LinearLayout
                     android:id="@+id/categorySierra"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_margin="4dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:background="@drawable/category_selector"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="6dp"
+                    app:layout_columnWeight="1"
+                    app:layout_columnSpan="1"
+                    app:layout_rowSpan="1">
 
                     <ImageView
                         android:layout_width="60dp"
@@ -151,11 +175,18 @@
 
                 <LinearLayout
                     android:id="@+id/categoryOriente"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_margin="4dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:background="@drawable/category_selector"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="6dp"
+                    app:layout_columnWeight="1"
+                    app:layout_columnSpan="1"
+                    app:layout_rowSpan="1">
 
                     <ImageView
                         android:layout_width="60dp"
@@ -174,11 +205,18 @@
 
                 <LinearLayout
                     android:id="@+id/categoryGalapagos"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_margin="4dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:background="@drawable/category_selector"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="6dp"
+                    app:layout_columnWeight="1"
+                    app:layout_columnSpan="1"
+                    app:layout_rowSpan="1">
 
                     <ImageView
                         android:layout_width="60dp"
@@ -190,13 +228,29 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Galápagos"
+                        android:text="Insular"
                         android:textColor="@color/textColor"
                         android:textSize="14sp" />
                 </LinearLayout>
+
             </androidx.gridlayout.widget.GridLayout>
+
         </LinearLayout>
     </ScrollView>
+
+    <!-- 📌 NUEVO: TextView para mostrar la categoría seleccionada -->
+    <TextView
+        android:id="@+id/selectedCategoryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Todas las recetas"
+        android:textColor="@color/textColor"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollViewContent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollViewContent" />
 
     <!-- RecyclerView para listar recetas (Usando item_recipes.xml) -->
     <androidx.recyclerview.widget.RecyclerView
