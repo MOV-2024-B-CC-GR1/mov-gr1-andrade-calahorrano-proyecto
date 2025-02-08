@@ -1,5 +1,6 @@
 package com.example.saboresdelecuador.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.saboresdelecuador.R
 import com.example.saboresdelecuador.models.Recipe
+import com.example.saboresdelecuador.recipes.RecipeDetailActivity
 
-class RecipesAdapter(private var recipes: List<Recipe>) :
-    RecyclerView.Adapter<RecipesAdapter.RecipeViewHolder>() {
+class RecipesAdapter(
+    private var recipes: List<Recipe>,
+    private val onRecipeClick: (Recipe) -> Unit  // 🔥 Agregar esta función
+) : RecyclerView.Adapter<RecipesAdapter.RecipeViewHolder>() {
 
     inner class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val recipeTitle: TextView = itemView.findViewById(R.id.recipeTitle)
@@ -32,7 +36,7 @@ class RecipesAdapter(private var recipes: List<Recipe>) :
         holder.recipeImage.setImageResource(recipe.imageRes)
 
         holder.btnViewRecipe.setOnClickListener {
-            // Simulación de ver receta
+            onRecipeClick(recipe)  // 🔥 Llamar la función que se pasa como parámetro
         }
     }
 

@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
@@ -16,11 +17,12 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_back_arrow"
         android:contentDescription="Regresar"
-        app:tint="@color/titleColor"
+        android:src="@drawable/ic_back_arrow"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/titleColor"
+        tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
     <!-- Título -->
     <TextView
@@ -183,7 +185,7 @@
                     android:textSize="16sp"
                     android:backgroundTint="@color/primaryColor"
                     android:textColor="@color/white"
-                    android:cornerRadius="8dp"/>
+                    app:cornerRadius="8dp"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -1,6 +1,7 @@
 package com.example.saboresdelecuador.recipes
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -38,11 +39,13 @@ class RecipesActivity : AppCompatActivity() {
 
         // Cargar recetas y configurar Adapter
         loadDummyRecipes()
-        recipesAdapter = RecipesAdapter(filteredRecipes)
+        recipesAdapter = RecipesAdapter(filteredRecipes) { selectedRecipe ->
+            openRecipeDetail(selectedRecipe)
+        }
         recyclerView.adapter = recipesAdapter
 
         // Configurar filtros de categorías
-        setupCategoryFilters() // ⬅️ LLAMAR AQUÍ
+        setupCategoryFilters()
     }
 
     private fun loadDummyRecipes() {
@@ -60,7 +63,6 @@ class RecipesActivity : AppCompatActivity() {
         allRecipes.addAll(sampleRecipes)
         filteredRecipes.addAll(allRecipes) // Mostrar todas al inicio
     }
-
 
     // ✅ Asegúrate de poner este método dentro de la clase `RecipesActivity`
     private fun setupCategoryFilters() {
@@ -89,5 +91,15 @@ class RecipesActivity : AppCompatActivity() {
             filteredRecipes.addAll(allRecipes.filter { it.category == category })
         }
         recipesAdapter.notifyDataSetChanged()
+    }
+
+    // 🔥 Método agregado para abrir RecipeDetailActivity
+    private fun openRecipeDetail(recipe: Recipe) {
+        val intent = Intent(this, RecipeDetailActivity::class.java).apply {
+            putExtra("RECIPE_NAME", recipe.title)
+            putExtra("RECIPE_DESCRIPTION", recipe.description)
+            putExtra("RECIPE_IMAGE", recipe.imageRes)
+        }
+        startActivity(intent)
     }
 }
