@@ -13,6 +13,9 @@
         android:theme="@style/Theme.SaboresDelEcuador"
         tools:targetApi="31">
         <activity
+            android:name=".auth.ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".recipes.RecipeDetailActivity"
             android:exported="false" />
         <activity
