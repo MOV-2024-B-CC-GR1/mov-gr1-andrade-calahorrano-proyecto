@@ -3,6 +3,7 @@ package com.example.saboresdelecuador.recipes
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.saboresdelecuador.R
 import com.example.saboresdelecuador.adapters.RecipesAdapter
+import com.example.saboresdelecuador.auth.ProfileActivity
 import com.example.saboresdelecuador.models.Recipe
 
 class RecipesActivity : AppCompatActivity() {
@@ -46,6 +48,13 @@ class RecipesActivity : AppCompatActivity() {
 
         // Configurar filtros de categorías
         setupCategoryFilters()
+
+        // Agregar funcionalidad al botón de perfil
+        val profileButton = findViewById<ImageView>(R.id.profileButton)
+        profileButton.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun loadDummyRecipes() {
