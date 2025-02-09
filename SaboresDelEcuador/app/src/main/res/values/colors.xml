@@ -22,4 +22,7 @@
     <color name="categoryBackground">#E0E0E0</color>
 
     <color name="backgroundCategory">#F5F5F5</color> <!-- Un gris claro, puedes cambiarlo -->
+    <color name="buttonPrimary">#007AFF</color>
+    <color name="buttonSecondary">#BDBDBD</color>
+
 </resources>
