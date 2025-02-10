@@ -65,7 +65,8 @@
                 android:paddingTop="12dp"
                 android:text="Selecciona la región"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
             <Spinner
                 android:id="@+id/spinnerRegion"
@@ -83,7 +84,8 @@
                 android:paddingTop="12dp"
                 android:text="Ingredientes"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
             <EditText
                 android:id="@+id/edtIngredients"
