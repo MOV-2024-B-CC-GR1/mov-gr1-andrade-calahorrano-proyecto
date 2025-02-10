@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.saboresdelecuador.R
+import com.google.firebase.firestore.FirebaseFirestore
 
 class RecipeFormActivity : AppCompatActivity() {
     private lateinit var edtRecipeName: EditText
@@ -63,10 +64,84 @@ class RecipeFormActivity : AppCompatActivity() {
             return
         }
 
-        // Simulación de guardado (en una base de datos, se enviaría esta información)
-        Toast.makeText(this, "Receta guardada: $recipeName", Toast.LENGTH_LONG).show()
+        // Obtener la instancia de Firestore
+        val db = FirebaseFirestore.getInstance()
 
-        // Cerrar la actividad después de guardar
-        finish()
+        // Crear un objeto con los datos de la receta
+        val recipe = hashMapOf(
+            "nombre" to recipeName,
+            "region" to region,
+            "descripcion" to recipeDescription
+        )
+
+        // Guardar la receta en la colección 'Recetas'
+        db.collection("Recetas")
+            .add(recipe)
+            .addOnSuccessListener { documentReference ->
+                val recipeId = documentReference.id
+                Toast.makeText(this, "Receta guardada con éxito.", Toast.LENGTH_SHORT).show()
+
+                // Agregar ingredientes
+                addIngredients(recipeId)
+
+                // Agregar pasos
+                addSteps(recipeId)
+
+                // Cerrar la actividad después de guardar
+                finish()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Error al guardar receta.", Toast.LENGTH_SHORT).show()
+                e.printStackTrace()
+            }
+    }
+
+    // Función para agregar ingredientes
+    private fun addIngredients(recipeId: String) {
+        val ingredients = edtIngredients.text.toString().split(",").map { it.trim() }
+        val db = FirebaseFirestore.getInstance()
+
+        for (ingredient in ingredients) {
+            val ingredientData = hashMapOf(
+                "nombre" to ingredient,
+                "cantidad" to "Cantidad no especificada",
+                "unidad" to "Unidad no especificada"
+            )
+
+            db.collection("Recetas").document(recipeId)
+                .collection("Ingredientes")
+                .add(ingredientData)
+                .addOnSuccessListener { documentReference ->
+                    // Agregar ingrediente exitoso
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error al agregar ingrediente.", Toast.LENGTH_SHORT).show()
+                    e.printStackTrace()
+                }
+        }
+    }
+
+    // Función para agregar pasos
+    private fun addSteps(recipeId: String) {
+        val stepsList = edtSteps.text.toString().split(",").map { it.trim() }
+        val db = FirebaseFirestore.getInstance()
+
+        for ((index, step) in stepsList.withIndex()) {
+            val stepData = hashMapOf(
+                "descripcion" to step,
+                "orden" to (index + 1)
+            )
+
+            db.collection("Recetas").document(recipeId)
+                .collection("Pasos")
+                .add(stepData)
+                .addOnSuccessListener { documentReference ->
+                    // Agregar paso exitoso
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error al agregar paso.", Toast.LENGTH_SHORT).show()
+                    e.printStackTrace()
+                }
+        }
     }
 }
