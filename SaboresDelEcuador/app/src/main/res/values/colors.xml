@@ -26,4 +26,7 @@
     <color name="buttonSecondary">#BDBDBD</color>
     <color name="buttonDanger">#FF5252</color>  <!-- Rojo brillante -->
 
+    <color name="beige">#F5F5DC</color>  <!-- Beige color -->
+    <color name="blue">#0000FF</color>   <!-- Blue color for buttons -->
+
 </resources>

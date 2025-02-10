@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SaboresDelEcuador</string>
+
+    <string-array name="region_options">
+        <item>Costa</item>
+        <item>Sierra</item>
+        <item>Oriente</item>
+        <item>Insular</item>
+    </string-array>
 </resources>
