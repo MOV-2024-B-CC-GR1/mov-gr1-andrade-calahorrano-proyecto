@@ -324,16 +324,30 @@ object AuthManager {
             return
         }
 
-        db.collection("Usuarios").document(nickname)
-            .update("password", newPassword)
-            .addOnSuccessListener {
-                Log.d("UPDATE_PASSWORD", "✅ Contraseña actualizada correctamente en Firestore")
-                onSuccess()
+        // 🔹 Buscar el usuario por su nickname
+        db.collection("Usuarios").whereEqualTo("nickname", nickname).get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val userDoc = documents.documents[0] // Obtener el primer documento
+                    val userId = userDoc.id // ID del documento en Firestore
+
+                    // 🔹 Actualizar solo el campo "password", sin cambiar el ID del documento
+                    db.collection("Usuarios").document(userId)
+                        .update("password", newPassword)
+                        .addOnSuccessListener {
+                            Log.d("UPDATE_PASSWORD", "✅ Contraseña actualizada correctamente en Firestore")
+                            onSuccess()
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("UPDATE_PASSWORD", "⚠️ Error al actualizar contraseña: ${e.message}")
+                            onFailure("Error al actualizar contraseña: ${e.message}")
+                        }
+                } else {
+                    onFailure("Usuario no encontrado en Firestore.")
+                }
             }
             .addOnFailureListener { e ->
-                Log.e("UPDATE_PASSWORD", "⚠️ Error al actualizar contraseña: ${e.message}")
-                onFailure("Error al actualizar contraseña: ${e.message}")
+                onFailure("Error al buscar usuario: ${e.message}")
             }
     }
-
 }

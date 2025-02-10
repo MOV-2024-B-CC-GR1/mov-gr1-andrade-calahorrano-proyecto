@@ -152,7 +152,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun updatePassword() {
-        val userNickname = originalNickname
+        val userNickname = AuthManager.getSavedUserNickname(this) ?: ""
         val newPassword = editNewPassword.text.toString().trim()
         val confirmPassword = editConfirmPassword.text.toString().trim()
 
@@ -169,9 +169,9 @@ class ProfileActivity : AppCompatActivity() {
         AuthManager.updateUserPasswordInFirestore(
             userNickname, newPassword,
             onSuccess = {
+                Toast.makeText(this, "Contraseña actualizada correctamente", Toast.LENGTH_SHORT).show()
                 editNewPassword.text.clear()
                 editConfirmPassword.text.clear()
-                Toast.makeText(this, "Contraseña actualizada correctamente", Toast.LENGTH_SHORT).show()
             },
             onFailure = { error ->
                 Toast.makeText(this, "Error al actualizar contraseña: $error", Toast.LENGTH_LONG).show()
@@ -185,9 +185,30 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun resetFields() {
-        editNickname.setText(originalNickname)
-        editNewPassword.text.clear()
-        editConfirmPassword.text.clear()
-        Toast.makeText(this, "Cambios descartados", Toast.LENGTH_SHORT).show()
+        val alertDialog = androidx.appcompat.app.AlertDialog.Builder(this)
+        alertDialog.setTitle("Descartar cambios")
+        alertDialog.setMessage("¿Estás seguro de que quieres descartar los cambios y salir?")
+
+        alertDialog.setPositiveButton("Sí") { _, _ ->
+            // 🔹 Resetear los campos
+            editNickname.setText(originalNickname)
+            editNewPassword.text.clear()
+            editConfirmPassword.text.clear()
+
+            Toast.makeText(this, "Cambios descartados", Toast.LENGTH_SHORT).show()
+
+            // 🔹 Regresar a RecipesActivity
+            val intent = Intent(this, RecipesActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            finish()
+        }
+
+        alertDialog.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss() // 🔹 Cierra solo el diálogo y sigue en la pantalla
+        }
+
+        alertDialog.show()
     }
+
 }
