@@ -20,7 +20,7 @@ class RecipesAdapter(
     inner class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val recipeTitle: TextView = itemView.findViewById(R.id.recipeTitle)
         val recipeDescription: TextView = itemView.findViewById(R.id.recipeDescription)
-        val recipeImage: ImageView = itemView.findViewById(R.id.recipeImage)
+        //val recipeImage: ImageView = itemView.findViewById(R.id.recipeImage)
         val btnViewRecipe: Button = itemView.findViewById(R.id.btnViewRecipe)
     }
 
@@ -33,10 +33,10 @@ class RecipesAdapter(
         val recipe = recipes[position]
         holder.recipeTitle.text = recipe.title
         holder.recipeDescription.text = recipe.description
-        holder.recipeImage.setImageResource(recipe.imageRes)
+        // No estamos utilizando la imagen por el momento
 
         holder.btnViewRecipe.setOnClickListener {
-            onRecipeClick(recipe)  // 🔥 Llamar la función que se pasa como parámetro
+            onRecipeClick(recipe)
         }
     }
 
