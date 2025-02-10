@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.saboresdelecuador.R
 import com.example.saboresdelecuador.home.HomeActivity
+import com.example.saboresdelecuador.recipes.RecipesActivity
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ProfileActivity : AppCompatActivity() {
@@ -122,7 +123,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun updateNickname() {
-        val oldNickname = originalNickname
+        val oldNickname = AuthManager.getSavedUserNickname(this) ?: ""
         val newNickname = editNickname.text.toString().trim()
 
         if (newNickname.isEmpty()) {
@@ -138,8 +139,11 @@ class ProfileActivity : AppCompatActivity() {
         AuthManager.updateUserNicknameInFirestore(
             this, oldNickname, newNickname,
             onSuccess = {
-                originalNickname = newNickname
                 Toast.makeText(this, "Nickname actualizado correctamente", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, RecipesActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
             },
             onFailure = { error ->
                 Toast.makeText(this, "Error al actualizar nickname: $error", Toast.LENGTH_LONG).show()

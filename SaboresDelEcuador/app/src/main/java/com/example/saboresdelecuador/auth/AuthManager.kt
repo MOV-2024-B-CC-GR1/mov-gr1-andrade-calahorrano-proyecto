@@ -239,31 +239,33 @@ object AuthManager {
             return
         }
 
-        val userRef = db.collection("Usuarios").document(oldNickname)
+        // 🔹 Buscar el usuario por su nickname original
+        db.collection("Usuarios").whereEqualTo("nickname", oldNickname).get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val userDoc = documents.documents[0] // Obtener el primer documento
+                    val userId = userDoc.id // ID del documento en Firestore
 
-        userRef.get().addOnSuccessListener { document ->
-            if (document.exists()) {
-                userRef.update("nickname", newNickname)
-                    .addOnSuccessListener {
-                        // ✅ Guardar el nuevo nickname en SharedPreferences
-                        saveUserNicknameToLocal(context, newNickname)
-
-                        Log.d(
-                            "UPDATE_NICKNAME",
-                            "✅ Nickname actualizado correctamente en Firestore"
-                        )
-                        onSuccess()
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("UPDATE_NICKNAME", "⚠️ Error al actualizar nickname: ${e.message}")
-                        onFailure("Error al actualizar nickname: ${e.message}")
-                    }
-            } else {
-                onFailure("El usuario no existe.")
+                    // 🔹 Actualizar solo el campo "nickname", no el ID
+                    db.collection("Usuarios").document(userId)
+                        .update("nickname", newNickname)
+                        .addOnSuccessListener {
+                            // ✅ Guardar el nuevo nickname en SharedPreferences
+                            saveUserNicknameToLocal(context, newNickname)
+                            Log.d("UPDATE_NICKNAME", "✅ Nickname actualizado correctamente")
+                            onSuccess()
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("UPDATE_NICKNAME", "⚠️ Error al actualizar nickname: ${e.message}")
+                            onFailure("Error al actualizar nickname: ${e.message}")
+                        }
+                } else {
+                    onFailure("Usuario no encontrado en Firestore.")
+                }
             }
-        }.addOnFailureListener { e ->
-            onFailure("Error al obtener usuario: ${e.message}")
-        }
+            .addOnFailureListener { e ->
+                onFailure("Error al buscar usuario: ${e.message}")
+            }
     }
 
     /**
