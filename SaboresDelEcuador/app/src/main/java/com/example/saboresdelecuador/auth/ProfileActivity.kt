@@ -47,5 +47,10 @@ class ProfileActivity : AppCompatActivity() {
         btnCancel.setOnClickListener {
             finish() // Cierra la actividad sin guardar cambios
         }
+
+        val btnLogout = findViewById<Button>(R.id.btnLogout)
+        btnLogout.setOnClickListener {
+            // Aquí puedes implementar la lógica para cerrar la sesión
+        }
     }
 }
