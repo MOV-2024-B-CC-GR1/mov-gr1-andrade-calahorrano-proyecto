@@ -24,5 +24,6 @@
     <color name="backgroundCategory">#F5F5F5</color> <!-- Un gris claro, puedes cambiarlo -->
     <color name="buttonPrimary">#007AFF</color>
     <color name="buttonSecondary">#BDBDBD</color>
+    <color name="buttonDanger">#FF5252</color>  <!-- Rojo brillante -->
 
 </resources>

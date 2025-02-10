@@ -86,13 +86,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profileImageContainer" />
 
-    <!-- Botones de acción -->
     <EditText
         android:id="@+id/editNickname"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="50dp"
         android:background="@drawable/input_background"
         android:hint="Ingrese su nombre"
@@ -100,19 +99,84 @@
         android:textColor="@color/textColor"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textNicknameLabel" />
 
+    <!-- Campo para nueva contraseña -->
+    <TextView
+        android:id="@+id/textNewPasswordLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Nueva Contraseña"
+        android:textColor="@color/titleColor"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editNickname" />
+
+    <EditText
+        android:id="@+id/editNewPassword"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="50dp"
+        android:background="@drawable/input_background"
+        android:hint="Ingrese nueva contraseña"
+        android:inputType="textPassword"
+        android:paddingHorizontal="16dp"
+        android:textColor="@color/textColor"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textNewPasswordLabel" />
+
+    <!-- Confirmar contraseña -->
+    <EditText
+        android:id="@+id/editConfirmPassword"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="50dp"
+        android:background="@drawable/input_background"
+        android:hint="Confirmar nueva contraseña"
+        android:inputType="textPassword"
+        android:paddingHorizontal="16dp"
+        android:textColor="@color/textColor"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editNewPassword" />
+
+    <!-- Botón para actualizar contraseña -->
+    <Button
+        android:id="@+id/btnChangePassword"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/buttonDanger"
+        android:paddingHorizontal="32dp"
+        android:paddingVertical="10dp"
+        android:text="Actualizar contraseña"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/editConfirmPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Botones de acción -->
     <LinearLayout
         android:id="@+id/actionButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editNickname">
+        app:layout_constraintTop_toBottomOf="@id/btnChangePassword">
 
         <Button
             android:id="@+id/btnSaveProfile"
