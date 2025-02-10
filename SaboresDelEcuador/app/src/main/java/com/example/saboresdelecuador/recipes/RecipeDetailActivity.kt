@@ -36,7 +36,7 @@ class RecipeDetailActivity : AppCompatActivity() {
             val intent = Intent(this, RecipeFormActivity::class.java)
             startActivity(intent)
         }
-        
+
         // Botón de Eliminar (Lógica para eliminar la receta)
         val btnDelete = findViewById<Button>(R.id.btnDelete)
         btnDelete.setOnClickListener {

@@ -16,6 +16,8 @@ import com.example.saboresdelecuador.R
 import com.example.saboresdelecuador.adapters.RecipesAdapter
 import com.example.saboresdelecuador.auth.ProfileActivity
 import com.example.saboresdelecuador.models.Recipe
+import com.example.saboresdelecuador.recipe_form.RecipeFormActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class RecipesActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -55,6 +57,13 @@ class RecipesActivity : AppCompatActivity() {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
+
+        val fabAddRecipe = findViewById<FloatingActionButton>(R.id.fabAddRecipe)
+        fabAddRecipe.setOnClickListener {
+            val intent = Intent(this, RecipeFormActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun loadDummyRecipes() {
