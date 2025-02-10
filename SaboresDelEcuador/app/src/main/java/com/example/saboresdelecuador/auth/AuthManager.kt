@@ -91,6 +91,9 @@ object AuthManager {
             }
     }
 
+    /**
+     * Recupera la contraseña del usuario en Firestore.
+     */
     fun recoverPassword(
         context: Context,
         username: String,
@@ -125,6 +128,93 @@ object AuthManager {
             .addOnFailureListener { e ->
                 Log.e("RECOVER_PASSWORD", "Error al buscar usuario: ${e.message}")
                 onFailure("Error al recuperar la contraseña.")
+            }
+    }
+
+    // 🔹 NUEVAS FUNCIONES AÑADIDAS
+
+    /**
+     * Actualiza el nickname del usuario en Firestore.
+     */
+    fun updateUserNicknameFirestore(
+        oldNickname: String,
+        newNickname: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        if (newNickname.isEmpty()) {
+            onFailure("El nuevo nombre no puede estar vacío.")
+            return
+        }
+
+        val userRef = db.collection("Usuarios").document(oldNickname)
+
+        userRef.get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                val userData = document.data
+                if (userData != null) {
+                    db.collection("Usuarios").document(newNickname).set(userData)
+                        .addOnSuccessListener {
+                            userRef.delete() // Borrar el usuario con el nombre anterior
+                            Log.d("UPDATE_NICKNAME", "✅ Nickname actualizado correctamente")
+                            onSuccess()
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("UPDATE_NICKNAME", "⚠️ Error al actualizar nickname: ${e.message}")
+                            onFailure("Error al actualizar nickname: ${e.message}")
+                        }
+                }
+            } else {
+                onFailure("El usuario no existe.")
+            }
+        }.addOnFailureListener { e ->
+            onFailure("Error al obtener usuario: ${e.message}")
+        }
+    }
+
+    /**
+     * Elimina un usuario de Firestore.
+     */
+    fun deleteUserFirestore(
+        nickname: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        db.collection("Usuarios").document(nickname)
+            .delete()
+            .addOnSuccessListener {
+                Log.d("DELETE_USER", "✅ Usuario eliminado en Firestore")
+                onSuccess()
+            }
+            .addOnFailureListener { e ->
+                Log.e("DELETE_USER", "⚠️ Error al eliminar usuario: ${e.message}")
+                onFailure("Error al eliminar usuario: ${e.message}")
+            }
+    }
+
+    /**
+     * Actualiza la contraseña del usuario en Firestore.
+     */
+    fun updateUserPasswordFirestore(
+        nickname: String,
+        newPassword: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        if (newPassword.isEmpty()) {
+            onFailure("La nueva contraseña no puede estar vacía.")
+            return
+        }
+
+        db.collection("Usuarios").document(nickname)
+            .update("password", newPassword)
+            .addOnSuccessListener {
+                Log.d("UPDATE_PASSWORD", "✅ Contraseña actualizada correctamente")
+                onSuccess()
+            }
+            .addOnFailureListener { e ->
+                Log.e("UPDATE_PASSWORD", "⚠️ Error al actualizar contraseña: ${e.message}")
+                onFailure("Error al actualizar contraseña: ${e.message}")
             }
     }
 }
