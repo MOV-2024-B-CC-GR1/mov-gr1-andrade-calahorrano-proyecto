@@ -1,8 +1,10 @@
 package com.example.saboresdelecuador.auth
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import com.example.saboresdelecuador.home.HomeActivity
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -62,18 +64,17 @@ object AuthManager {
         Log.d("LOGIN_FIRESTORE", "Buscando usuario: $nickname en Firestore")
 
         db.collection("Usuarios")
-            .whereEqualTo("nickname", nickname) // 🔹 Busca por nickname
+            .whereEqualTo("nickname", nickname)
             .get()
             .addOnSuccessListener { documents ->
                 if (!documents.isEmpty) {
                     val userDoc = documents.documents[0]
                     val storedPassword = userDoc.getString("password") ?: ""
 
-                    Log.d("LOGIN_FIRESTORE", "Usuario encontrado: ${userDoc.getString("nickname")}")
-                    Log.d("LOGIN_FIRESTORE", "Contraseña en Firestore: $storedPassword")
-                    Log.d("LOGIN_FIRESTORE", "Contraseña ingresada: $password")
-
                     if (storedPassword == password) {
+                        // ✅ Guardar usuario en SharedPreferences
+                        saveUserNicknameToLocal(context, nickname)
+
                         Log.d("LOGIN_FIRESTORE", "✅ Inicio de sesión exitoso")
                         onSuccess()
                     } else {
@@ -160,7 +161,10 @@ object AuthManager {
                             onSuccess()
                         }
                         .addOnFailureListener { e ->
-                            Log.e("UPDATE_NICKNAME", "⚠️ Error al actualizar nickname: ${e.message}")
+                            Log.e(
+                                "UPDATE_NICKNAME",
+                                "⚠️ Error al actualizar nickname: ${e.message}"
+                            )
                             onFailure("Error al actualizar nickname: ${e.message}")
                         }
                 }
@@ -173,23 +177,109 @@ object AuthManager {
     }
 
     /**
-     * Elimina un usuario de Firestore.
+     * Guarda el nickname del usuario en SharedPreferences.
      */
-    fun deleteUserFirestore(
-        nickname: String,
+    fun saveUserNicknameToLocal(context: Context, nickname: String) {
+        val sharedPreferences = context.getSharedPreferences("USER_PREFS", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("nickname", nickname)
+        editor.apply()
+        Log.d("SHARED_PREFS", "✅ Nickname guardado en SharedPreferences: $nickname")
+    }
+
+    /**
+     * Obtiene el nickname del usuario almacenado en SharedPreferences.
+     */
+    fun getSavedUserNickname(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences("USER_PREFS", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("nickname", null)
+    }
+
+    /**
+     * Carga los datos del usuario desde Firestore.
+     */
+    fun loadUserDataFirestore(
+        context: Context,
+        onSuccess: (Map<String, Any>?) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        val nickname = getSavedUserNickname(context)
+
+        if (nickname.isNullOrEmpty()) {
+            onFailure("No se encontró el usuario en sesión.")
+            return
+        }
+
+        db.collection("Usuarios").document(nickname)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    onSuccess(document.data)
+                } else {
+                    onFailure("Usuario no encontrado en Firestore.")
+                }
+            }
+            .addOnFailureListener { e ->
+                onFailure("Error al obtener datos del usuario: ${e.message}")
+            }
+    }
+
+    /**
+     * Actualiza el nickname del usuario en Firestore sin eliminar el usuario.
+     */
+    fun updateUserNicknameInFirestore(
+        context: Context,
+        oldNickname: String,
+        newNickname: String,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ) {
-        db.collection("Usuarios").document(nickname)
-            .delete()
-            .addOnSuccessListener {
-                Log.d("DELETE_USER", "✅ Usuario eliminado en Firestore")
-                onSuccess()
+        if (newNickname.isEmpty()) {
+            onFailure("El nuevo nombre no puede estar vacío.")
+            return
+        }
+
+        val userRef = db.collection("Usuarios").document(oldNickname)
+
+        userRef.get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                userRef.update("nickname", newNickname)
+                    .addOnSuccessListener {
+                        // ✅ Guardar el nuevo nickname en SharedPreferences
+                        saveUserNicknameToLocal(context, newNickname)
+
+                        Log.d(
+                            "UPDATE_NICKNAME",
+                            "✅ Nickname actualizado correctamente en Firestore"
+                        )
+                        onSuccess()
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("UPDATE_NICKNAME", "⚠️ Error al actualizar nickname: ${e.message}")
+                        onFailure("Error al actualizar nickname: ${e.message}")
+                    }
+            } else {
+                onFailure("El usuario no existe.")
             }
-            .addOnFailureListener { e ->
-                Log.e("DELETE_USER", "⚠️ Error al eliminar usuario: ${e.message}")
-                onFailure("Error al eliminar usuario: ${e.message}")
-            }
+        }.addOnFailureListener { e ->
+            onFailure("Error al obtener usuario: ${e.message}")
+        }
+    }
+
+    /**
+     * Cierra sesión del usuario y limpia `SharedPreferences`.
+     */
+    fun logoutUser(context: Context) {
+        val sharedPreferences = context.getSharedPreferences("USER_PREFS", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+
+        Log.d("LOGOUT_FIRESTORE", "✅ Usuario desconectado y nickname eliminado")
+
+        val intent = Intent(context, HomeActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        context.startActivity(intent)
     }
 
     /**
@@ -217,4 +307,31 @@ object AuthManager {
                 onFailure("Error al actualizar contraseña: ${e.message}")
             }
     }
+
+    /**
+     * Actualiza la contraseña del usuario en Firestore sin eliminar el usuario.
+     */
+    fun updateUserPasswordInFirestore(
+        nickname: String,
+        newPassword: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        if (newPassword.isEmpty()) {
+            onFailure("La nueva contraseña no puede estar vacía.")
+            return
+        }
+
+        db.collection("Usuarios").document(nickname)
+            .update("password", newPassword)
+            .addOnSuccessListener {
+                Log.d("UPDATE_PASSWORD", "✅ Contraseña actualizada correctamente en Firestore")
+                onSuccess()
+            }
+            .addOnFailureListener { e ->
+                Log.e("UPDATE_PASSWORD", "⚠️ Error al actualizar contraseña: ${e.message}")
+                onFailure("Error al actualizar contraseña: ${e.message}")
+            }
+    }
+
 }
