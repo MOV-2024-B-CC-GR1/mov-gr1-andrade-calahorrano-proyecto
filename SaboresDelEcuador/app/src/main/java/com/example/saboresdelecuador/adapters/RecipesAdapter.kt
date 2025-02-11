@@ -35,8 +35,12 @@ class RecipesAdapter(
         holder.recipeDescription.text = recipe.description
         // No estamos utilizando la imagen por el momento
 
+        // Configura el clic en el botón "Ver receta"
         holder.btnViewRecipe.setOnClickListener {
-            onRecipeClick(recipe)
+            // Pasar el ID de la receta a RecipeDetailActivity
+            val intent = Intent(holder.itemView.context, RecipeDetailActivity::class.java)
+            intent.putExtra("RECIPE_ID", recipe.id) // Asume que 'recipe.id' es el identificador único de la receta
+            holder.itemView.context.startActivity(intent)
         }
     }
 

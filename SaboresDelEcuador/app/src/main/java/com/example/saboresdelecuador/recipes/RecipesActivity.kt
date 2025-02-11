@@ -133,14 +133,14 @@ class RecipesActivity : AppCompatActivity() {
                 allRecipes.clear()
                 for (document in documents) {
                     val recipe = Recipe(
-                        document.getString("nombre") ?: "", // Nombre de la receta
-                        document.getString("descripcion") ?: "", // Descripción de la receta
-                        document.getString("region") ?: "" // Categoría
-                        //document.getString("imageUrl") ?: "" // URL de la imagen
+                        id = document.id,  // El ID de la receta
+                        title = document.getString("nombre") ?: "",  // Nombre de la receta
+                        description = document.getString("descripcion") ?: "",  // Descripción
+                        category = document.getString("region") ?: ""  // Categoría (región)
                     )
-
                     allRecipes.add(recipe)
                 }
+
                 // Inicialmente, mostrar todas las recetas
                 filteredRecipes.addAll(allRecipes)
                 recipesAdapter.notifyDataSetChanged()
