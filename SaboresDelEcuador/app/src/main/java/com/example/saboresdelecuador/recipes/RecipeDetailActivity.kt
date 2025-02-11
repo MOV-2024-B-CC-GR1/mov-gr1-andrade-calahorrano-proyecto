@@ -1,6 +1,7 @@
 package com.example.saboresdelecuador.recipes
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -13,6 +14,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -31,6 +33,11 @@ class RecipeDetailActivity : AppCompatActivity() {
     private lateinit var recipeSteps: TextView
 
     private val db = FirebaseFirestore.getInstance()
+    private var recipeId: String? = null
+
+    companion object {
+        const val REQUEST_UPDATE_RECIPE = 1001 // Agregado para manejar actualización
+    }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,20 +89,30 @@ class RecipeDetailActivity : AppCompatActivity() {
         // Configurar el botón de actualizar (abre RecipeFormActivity)
         btnUpdate.setOnClickListener {
             val intent = Intent(this, RecipeFormActivity::class.java).apply {
-                putExtra("recipeId", recipeId) // Pasar el ID de la receta
+                putExtra("recipeId", recipeId)
                 putExtra("title", recipeTitle.text.toString())
                 putExtra("description", recipeDescription.text.toString())
                 putExtra("ingredients", recipeIngredients.text.toString())
                 putExtra("steps", recipeSteps.text.toString())
-                putExtra("region", spinnerRegion.selectedItem.toString()) // Agregar la región seleccionada
+                putExtra("region", spinnerRegion.selectedItem.toString())
             }
-            startActivity(intent)
+            launcher.launch(intent) // 🔥 Ahora usa el ActivityResultLauncher en lugar de startActivityForResult
         }
 
         // Configurar el botón de eliminar
         btnDelete.setOnClickListener {
             if (recipeId != null) {
                 deleteRecipe(recipeId)
+            }
+        }
+    }
+
+    // Método para recargar datos después de actualizar
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_UPDATE_RECIPE && resultCode == Activity.RESULT_OK) {
+            if (recipeId != null) {
+                loadRecipeDetails(recipeId!!) // 🔥 Recargar los datos de la receta después de actualizar
             }
         }
     }
@@ -166,7 +183,6 @@ class RecipeDetailActivity : AppCompatActivity() {
             }
     }
 
-
     // Eliminar receta de Firestore
     private fun deleteRecipe(recipeId: String) {
         db.collection("Recetas").document(recipeId)
@@ -178,5 +194,13 @@ class RecipeDetailActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Toast.makeText(this, "Error al eliminar receta", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            if (recipeId != null) {
+                loadRecipeDetails(recipeId!!) // 🔥 Recargar detalles actualizados
+            }
+        }
     }
 }

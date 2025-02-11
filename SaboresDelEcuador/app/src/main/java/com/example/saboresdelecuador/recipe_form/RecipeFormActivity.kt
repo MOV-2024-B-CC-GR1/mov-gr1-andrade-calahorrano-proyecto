@@ -1,5 +1,6 @@
 package com.example.saboresdelecuador.recipe_form
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.saboresdelecuador.R
+import com.example.saboresdelecuador.recipes.RecipeDetailActivity.Companion.REQUEST_UPDATE_RECIPE
 import com.google.firebase.firestore.FirebaseFirestore
 
 class RecipeFormActivity : AppCompatActivity() {
@@ -23,6 +25,10 @@ class RecipeFormActivity : AppCompatActivity() {
     private lateinit var btnCancel: Button
 
     private var recipeId: String? = null // ID de la receta, puede ser nulo si es nuevo
+
+    companion object {
+        const val REQUEST_UPDATE_RECIPE = 1
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,10 +81,12 @@ class RecipeFormActivity : AppCompatActivity() {
         // Configurar botón de guardar
         btnSave.setOnClickListener {
             if (recipeId != null) {
-                // Si hay ID, se debe actualizar la receta
                 updateRecipe(recipeId!!)
+                val resultIntent = Intent()
+                resultIntent.putExtra("recipeUpdated", true)
+                setResult(RESULT_OK, resultIntent)
+                finish()
             } else {
-                // Si no hay ID, se agrega una nueva receta
                 saveRecipe()
             }
         }
@@ -86,6 +94,15 @@ class RecipeFormActivity : AppCompatActivity() {
         // Configurar botón de cancelar
         btnCancel.setOnClickListener {
             finish() // Cierra la actividad y vuelve a la anterior
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_UPDATE_RECIPE && resultCode == RESULT_OK) {
+            if (intent.getStringExtra("RECIPE_ID") != null) {
+                loadRecipeData(intent.getStringExtra("RECIPE_ID")!!)
+            }
         }
     }
 
@@ -142,8 +159,8 @@ class RecipeFormActivity : AppCompatActivity() {
         for (ingredient in ingredients) {
             val ingredientData = hashMapOf(
                 "nombre" to ingredient,
-                "cantidad" to "Cantidad no especificada",
-                "unidad" to "Unidad no especificada"
+                "cantidad" to "",
+                "unidad" to ""
             )
 
             db.collection("Recetas").document(recipeId)
@@ -187,21 +204,49 @@ class RecipeFormActivity : AppCompatActivity() {
     private fun loadRecipeData(recipeId: String) {
         val db = FirebaseFirestore.getInstance()
 
-        // Obtener los datos de la receta
         db.collection("Recetas").document(recipeId)
             .get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
-                    val recipe = document.data
-                    edtRecipeName.setText(recipe?.get("nombre").toString())
-                    edtRecipeDescription.setText(recipe?.get("descripcion").toString())
-                    edtIngredients.setText(recipe?.get("ingredientes").toString())
-                    edtSteps.setText(recipe?.get("pasos").toString())
+                    edtRecipeName.setText(document.getString("nombre") ?: "")
+                    edtRecipeDescription.setText(document.getString("descripcion") ?: "")
+
+                    loadIngredients(recipeId)
+                    loadSteps(recipeId)
                 }
             }
-            .addOnFailureListener { e ->
+            .addOnFailureListener {
                 Toast.makeText(this, "Error al cargar receta.", Toast.LENGTH_SHORT).show()
-                e.printStackTrace()
+            }
+    }
+
+    // Cargar ingredientes desde Firestore
+    private fun loadIngredients(recipeId: String) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("Recetas").document(recipeId).collection("Ingredientes")
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val ingredients = StringBuilder()
+                for (doc in snapshot) {
+                    val ingredient = doc.getString("nombre") ?: ""
+                    ingredients.append("$ingredient\n")
+                }
+                edtIngredients.setText(ingredients.toString().trim())
+            }
+    }
+
+    // Cargar pasos desde Firestore
+    private fun loadSteps(recipeId: String) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("Recetas").document(recipeId).collection("Pasos")
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val steps = StringBuilder()
+                for ((index, doc) in snapshot.withIndex()) {
+                    val step = doc.getString("descripcion") ?: ""
+                    steps.append("${index + 1}. $step\n")
+                }
+                edtSteps.setText(steps.toString().trim())
             }
     }
 
@@ -218,33 +263,33 @@ class RecipeFormActivity : AppCompatActivity() {
             return
         }
 
-        // Obtener la instancia de Firestore
         val db = FirebaseFirestore.getInstance()
 
-        // Crear un objeto con los datos actualizados de la receta
         val recipe: Map<String, Any> = hashMapOf(
             "nombre" to recipeName,
             "region" to region,
             "descripcion" to recipeDescription
         )
 
-        // Actualizar la receta en la colección 'Recetas'
         db.collection("Recetas").document(recipeId)
             .update(recipe)
             .addOnSuccessListener {
                 Toast.makeText(this, "Receta actualizada con éxito.", Toast.LENGTH_SHORT).show()
 
-                // Primero eliminar los ingredientes y pasos antiguos antes de agregar los nuevos
                 deleteIngredients(recipeId) {
-                    addIngredients(recipeId) // Reagregar ingredientes actualizados
+                    addIngredients(recipeId)
                 }
 
                 deleteSteps(recipeId) {
-                    addSteps(recipeId) // Reagregar pasos actualizados
+                    addSteps(recipeId)
                 }
 
-                // Cerrar la actividad después de actualizar
-                finish()
+                // 🔥 Enviar resultado a RecipeDetailActivity para que recargue los datos
+                val resultIntent = Intent()
+                resultIntent.putExtra("recipeUpdated", true)
+                setResult(RESULT_OK, resultIntent)
+
+                finish() // Cierra la actividad después de actualizar
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Error al actualizar receta.", Toast.LENGTH_SHORT).show()
