@@ -1,6 +1,7 @@
 package com.example.saboresdelecuador.recipe_form
 
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
@@ -46,11 +47,29 @@ class RecipeFormActivity : AppCompatActivity() {
         recipeId = intent.getStringExtra("recipeId") // Recibir el ID de la receta si es una edición
 
         if (recipeId != null) {
-            // Si el ID no es nulo, cargar la receta para editar
-            loadRecipeData(recipeId!!)
-            btnSave.text = "Actualizar Receta" // Cambiar el texto del botón a "Actualizar"
+            // Si el ID existe, precargar datos
+            edtRecipeName.setText(intent.getStringExtra("title") ?: "")
+            edtRecipeDescription.setText(intent.getStringExtra("description") ?: "")
+            edtIngredients.setText(intent.getStringExtra("ingredients") ?: "")
+            edtSteps.setText(intent.getStringExtra("steps") ?: "")
+
+            btnSave.text = "Actualizar Receta"
         } else {
-            btnSave.text = "Agregar Receta" // Si no hay ID, es un nuevo registro
+            btnSave.text = "Agregar Receta"
+        }
+
+        // Configurar Spinner con valores de regiones
+        val regiones = resources.getStringArray(R.array.region_options)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, regiones)
+        spinnerRegion.adapter = adapter
+
+        // Seleccionar la región correcta en el Spinner
+        val selectedRegion = intent.getStringExtra("region") ?: ""
+        if (selectedRegion.isNotEmpty()) {
+            val position = regiones.indexOf(selectedRegion)
+            if (position >= 0) {
+                spinnerRegion.setSelection(position)
+            }
         }
 
         // Configurar botón de guardar
@@ -187,48 +206,46 @@ class RecipeFormActivity : AppCompatActivity() {
     }
 
     // Método para actualizar la receta
-//    private fun updateRecipe(recipeId: String) {
-//        val recipeName = edtRecipeName.text.toString().trim()
-//        val recipeDescription = edtRecipeDescription.text.toString().trim()
-//        val region = spinnerRegion.selectedItem.toString()
-//        val ingredients = edtIngredients.text.toString().trim()
-//        val steps = edtSteps.text.toString().trim()
-//
-//        if (recipeName.isEmpty() || recipeDescription.isEmpty() || ingredients.isEmpty() || steps.isEmpty()) {
-//            Toast.makeText(this, "Por favor, completa todos los campos.", Toast.LENGTH_SHORT).show()
-//            return
-//        }
-//
-//        // Obtener la instancia de Firestore
-//        val db = FirebaseFirestore.getInstance()
-//
-//        // Crear un objeto con los datos actualizados de la receta
-//        val recipe = hashMapOf(
-//            "nombre" to recipeName,
-//            "region" to region,
-//            "descripcion" to recipeDescription
-//        )
-//
-//        // Actualizar la receta en la colección 'Recetas'
-//        db.collection("Recetas").document(recipeId)
-//            .update(recipe)
-//            .addOnSuccessListener {
-//                Toast.makeText(this, "Receta actualizada con éxito.", Toast.LENGTH_SHORT).show()
-//
-//                // Actualizar ingredientes
-//                updateIngredients(recipeId)
-//
-//                // Actualizar pasos
-//                updateSteps(recipeId)
-//
-//                // Cerrar la actividad después de actualizar
-//                finish()
-//            }
-//            .addOnFailureListener { e ->
-//                Toast.makeText(this, "Error al actualizar receta.", Toast.LENGTH_SHORT).show()
-//                e.printStackTrace()
-//            }
-//    }
+    private fun updateRecipe(recipeId: String) {
+        val recipeName = edtRecipeName.text.toString().trim()
+        val recipeDescription = edtRecipeDescription.text.toString().trim()
+        val region = spinnerRegion.selectedItem.toString()
+        val ingredients = edtIngredients.text.toString().trim()
+        val steps = edtSteps.text.toString().trim()
+
+        if (recipeName.isEmpty() || recipeDescription.isEmpty() || ingredients.isEmpty() || steps.isEmpty()) {
+            Toast.makeText(this, "Por favor, completa todos los campos.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Obtener la instancia de Firestore
+        val db = FirebaseFirestore.getInstance()
+
+        // Crear un objeto con los datos actualizados de la receta
+        val recipe: Map<String, Any> = hashMapOf(
+            "nombre" to recipeName,
+            "region" to region,
+            "descripcion" to recipeDescription
+        )
+
+// Actualizar la receta en la colección 'Recetas'
+        db.collection("Recetas").document(recipeId)
+            .update(recipe)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Receta actualizada con éxito.", Toast.LENGTH_SHORT).show()
+
+                // Actualizar ingredientes y pasos
+                updateIngredients(recipeId)
+                updateSteps(recipeId)
+
+                // Cerrar la actividad después de actualizar
+                finish()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Error al actualizar receta.", Toast.LENGTH_SHORT).show()
+                e.printStackTrace()
+            }
+    }
 
     // Función para actualizar ingredientes
     private fun updateIngredients(recipeId: String) {

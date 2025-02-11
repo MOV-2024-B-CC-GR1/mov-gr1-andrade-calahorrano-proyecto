@@ -3,6 +3,9 @@ package com.example.saboresdelecuador.recipes
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -62,10 +65,30 @@ class RecipeDetailActivity : AppCompatActivity() {
             finish() // Cierra la actividad y vuelve a la anterior
         }
 
+        // Configurar Spinner con Listener
+        val regiones = resources.getStringArray(R.array.region_options)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, regiones)
+        spinnerRegion.adapter = adapter
+
+        spinnerRegion.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val regionSeleccionada = regiones[position]
+                Toast.makeText(applicationContext, "Región seleccionada: $regionSeleccionada", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
         // Configurar el botón de actualizar (abre RecipeFormActivity)
         btnUpdate.setOnClickListener {
-            val intent = Intent(this, RecipeFormActivity::class.java)
-            intent.putExtra("RECIPE_ID", recipeId) // Pasamos el ID de la receta
+            val intent = Intent(this, RecipeFormActivity::class.java).apply {
+                putExtra("recipeId", recipeId) // Pasar el ID de la receta
+                putExtra("title", recipeTitle.text.toString())
+                putExtra("description", recipeDescription.text.toString())
+                putExtra("ingredients", recipeIngredients.text.toString())
+                putExtra("steps", recipeSteps.text.toString())
+                putExtra("region", spinnerRegion.selectedItem.toString()) // Agregar la región seleccionada
+            }
             startActivity(intent)
         }
 
