@@ -76,7 +76,7 @@ class RecipeFormActivity : AppCompatActivity() {
         btnSave.setOnClickListener {
             if (recipeId != null) {
                 // Si hay ID, se debe actualizar la receta
-                //updateRecipe(recipeId!!)
+                updateRecipe(recipeId!!)
             } else {
                 // Si no hay ID, se agrega una nueva receta
                 saveRecipe()
@@ -228,15 +228,20 @@ class RecipeFormActivity : AppCompatActivity() {
             "descripcion" to recipeDescription
         )
 
-// Actualizar la receta en la colección 'Recetas'
+        // Actualizar la receta en la colección 'Recetas'
         db.collection("Recetas").document(recipeId)
             .update(recipe)
             .addOnSuccessListener {
                 Toast.makeText(this, "Receta actualizada con éxito.", Toast.LENGTH_SHORT).show()
 
-                // Actualizar ingredientes y pasos
-                updateIngredients(recipeId)
-                updateSteps(recipeId)
+                // Primero eliminar los ingredientes y pasos antiguos antes de agregar los nuevos
+                deleteIngredients(recipeId) {
+                    addIngredients(recipeId) // Reagregar ingredientes actualizados
+                }
+
+                deleteSteps(recipeId) {
+                    addSteps(recipeId) // Reagregar pasos actualizados
+                }
 
                 // Cerrar la actividad después de actualizar
                 finish()
@@ -248,12 +253,27 @@ class RecipeFormActivity : AppCompatActivity() {
     }
 
     // Función para actualizar ingredientes
-    private fun updateIngredients(recipeId: String) {
-        // Lógica para actualizar los ingredientes en la subcolección 'Ingredientes'
+    private fun deleteIngredients(recipeId: String, onComplete: () -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+        val ingredientsRef = db.collection("Recetas").document(recipeId).collection("Ingredientes")
+
+        ingredientsRef.get().addOnSuccessListener { snapshot ->
+            for (doc in snapshot) {
+                doc.reference.delete()
+            }
+            onComplete() // Llamar cuando termine la eliminación
+        }
     }
 
-    // Función para actualizar pasos
-    private fun updateSteps(recipeId: String) {
-        // Lógica para actualizar los pasos en la subcolección 'Pasos'
+    private fun deleteSteps(recipeId: String, onComplete: () -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+        val stepsRef = db.collection("Recetas").document(recipeId).collection("Pasos")
+
+        stepsRef.get().addOnSuccessListener { snapshot ->
+            for (doc in snapshot) {
+                doc.reference.delete()
+            }
+            onComplete() // Llamar cuando termine la eliminación
+        }
     }
 }
