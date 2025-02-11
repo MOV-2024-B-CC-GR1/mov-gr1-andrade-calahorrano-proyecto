@@ -20,7 +20,7 @@ class RecipesAdapter(
     inner class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val recipeTitle: TextView = itemView.findViewById(R.id.recipeTitle)
         val recipeDescription: TextView = itemView.findViewById(R.id.recipeDescription)
-        val recipeImage: ImageView = itemView.findViewById(R.id.recipeImage)
+        //val recipeImage: ImageView = itemView.findViewById(R.id.recipeImage)
         val btnViewRecipe: Button = itemView.findViewById(R.id.btnViewRecipe)
     }
 
@@ -33,10 +33,14 @@ class RecipesAdapter(
         val recipe = recipes[position]
         holder.recipeTitle.text = recipe.title
         holder.recipeDescription.text = recipe.description
-        holder.recipeImage.setImageResource(recipe.imageRes)
+        // No estamos utilizando la imagen por el momento
 
+        // Configura el clic en el botón "Ver receta"
         holder.btnViewRecipe.setOnClickListener {
-            onRecipeClick(recipe)  // 🔥 Llamar la función que se pasa como parámetro
+            // Pasar el ID de la receta a RecipeDetailActivity
+            val intent = Intent(holder.itemView.context, RecipeDetailActivity::class.java)
+            intent.putExtra("RECIPE_ID", recipe.id) // Asume que 'recipe.id' es el identificador único de la receta
+            holder.itemView.context.startActivity(intent)
         }
     }
 

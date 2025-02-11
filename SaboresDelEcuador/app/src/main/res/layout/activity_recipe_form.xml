@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF3DF"
+    tools:context=".recipe_form.RecipeFormActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/beige"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Título -->
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingBottom="8dp"
+                android:text="Agregar/Editar Receta"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <!-- Campo Nombre de la Receta -->
+            <EditText
+                android:id="@+id/edtRecipeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/edit_text"
+                android:hint="Nombre de la receta"
+                android:padding="10dp"
+                android:textSize="16sp" />
+
+            <!-- Campo Descripción -->
+            <EditText
+                android:id="@+id/edtRecipeDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/edit_text"
+                android:hint="Descripción de la receta"
+                android:inputType="textMultiLine"
+                android:maxLines="5"
+                android:minLines="3"
+                android:padding="10dp"
+                android:textSize="16sp" />
+
+            <!-- Spinner para seleccionar la región -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:text="Selecciona la región"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+            <Spinner
+                android:id="@+id/spinnerRegion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_rounded"
+                android:entries="@array/region_options"
+                android:spinnerMode="dropdown"
+                android:padding="10dp"/>
+
+            <!-- Lista de ingredientes -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:text="Ingredientes"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+            <EditText
+                android:id="@+id/edtIngredients"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/edit_text_rounded"
+                android:gravity="top|start"
+                android:hint="Lista de ingredientes (separados por comas)"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:minLines="6"
+                android:padding="10dp"
+                android:textSize="16sp" />
+
+            <!-- Lista de pasos -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:text="Pasos"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtSteps"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/edit_text_rounded"
+                android:gravity="top|start"
+                android:hint="Lista de pasos (separados por comas)"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:minLines="6"
+                android:padding="10dp"
+                android:textSize="16sp" />
+
+            <!-- Botón Guardar -->
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/blue"
+                android:text="Guardar Receta"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <!-- Botón Cancelar -->
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@android:color/darker_gray"
+                android:text="Cancelar"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
